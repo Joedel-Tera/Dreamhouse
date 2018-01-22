@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: dh_database
+-- Host: localhost    Database: dh_database
 -- ------------------------------------------------------
--- Server version	5.7.19
+-- Server version	5.7.20-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -101,7 +101,7 @@ CREATE TABLE `dh_house_project` (
   `dh_date_created` varchar(45) DEFAULT NULL,
   `dh_user_id` int(11) NOT NULL,
   PRIMARY KEY (`dh_house_proj_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -110,6 +110,7 @@ CREATE TABLE `dh_house_project` (
 
 LOCK TABLES `dh_house_project` WRITE;
 /*!40000 ALTER TABLE `dh_house_project` DISABLE KEYS */;
+INSERT INTO `dh_house_project` VALUES (19,'Test House','Sample Description Project','Location Unknown','Promos None','01-22-2018',1);
 /*!40000 ALTER TABLE `dh_house_project` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -128,7 +129,7 @@ CREATE TABLE `dh_images` (
   `isAmenities` int(11) DEFAULT '0',
   `dh_image_path` varchar(55) DEFAULT NULL,
   PRIMARY KEY (`dh_image_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,6 +138,7 @@ CREATE TABLE `dh_images` (
 
 LOCK TABLES `dh_images` WRITE;
 /*!40000 ALTER TABLE `dh_images` DISABLE KEYS */;
+INSERT INTO `dh_images` VALUES (13,19,1,0,0,'uploads/Banner1.PNG'),(14,19,0,1,0,'uploads/Banner2.PNG'),(15,19,0,0,1,'uploads/Banner3.PNG');
 /*!40000 ALTER TABLE `dh_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,6 +167,37 @@ CREATE TABLE `dh_news` (
 LOCK TABLES `dh_news` WRITE;
 /*!40000 ALTER TABLE `dh_news` DISABLE KEYS */;
 /*!40000 ALTER TABLE `dh_news` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dh_seminar_calendar`
+--
+
+DROP TABLE IF EXISTS `dh_seminar_calendar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dh_seminar_calendar` (
+  `dh_seminar_id` int(11) NOT NULL AUTO_INCREMENT,
+  `dh_seminar_name` varchar(250) DEFAULT NULL,
+  `dh_seminar_date` varchar(45) DEFAULT NULL,
+  `dh_seminar_time_start` varchar(45) DEFAULT NULL,
+  `dh_seminar_time_end` varchar(45) DEFAULT NULL,
+  `dh_seminar_location` varchar(45) DEFAULT NULL,
+  `dh_date_created` varchar(45) DEFAULT NULL,
+  `dh_user_id` varchar(45) NOT NULL,
+  `dh_seminar_status` varchar(45) DEFAULT 'For Approval',
+  PRIMARY KEY (`dh_seminar_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dh_seminar_calendar`
+--
+
+LOCK TABLES `dh_seminar_calendar` WRITE;
+/*!40000 ALTER TABLE `dh_seminar_calendar` DISABLE KEYS */;
+INSERT INTO `dh_seminar_calendar` VALUES (1,'Sample Seminar','01-31-2018','8:00AM','5:00PM','Molino, Cavite','01-22-2018','1','For Approval');
+/*!40000 ALTER TABLE `dh_seminar_calendar` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -327,8 +360,42 @@ CREATE TABLE `dh_users` (
 
 LOCK TABLES `dh_users` WRITE;
 /*!40000 ALTER TABLE `dh_users` DISABLE KEYS */;
-INSERT INTO `dh_users` VALUES (1,5,1,'Tsumichan','VHN1bWljaGFuMTI=','01-16-2018','Active',0,0,NULL),(2,4,2,'Tsumichan12','VHN1bWljaGFuMTI=','01-20-2018','Active',0,0,'Registration'),(3,3,3,'TsumiSales','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode'),(4,2,4,'TsumiManager','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode');
+INSERT INTO `dh_users` VALUES (1,2,1,'Tsumichan','VHN1bWljaGFuMTI=','01-16-2018','Active',0,0,NULL),(2,4,2,'Tsumichan12','VHN1bWljaGFuMTI=','01-20-2018','Active',0,0,'Registration'),(3,3,3,'TsumiSales','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode'),(4,2,4,'TsumiManager','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode');
 /*!40000 ALTER TABLE `dh_users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dh_vehicletrip_calendar`
+--
+
+DROP TABLE IF EXISTS `dh_vehicletrip_calendar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dh_vehicletrip_calendar` (
+  `dh_vehicle_trip_id` int(11) NOT NULL AUTO_INCREMENT,
+  `dh_trip_date` varchar(45) DEFAULT NULL,
+  `dh_location_pickup` varchar(45) DEFAULT NULL,
+  `dh_location_pickup_time` varchar(45) DEFAULT NULL,
+  `dh_location_destination` varchar(45) DEFAULT NULL,
+  `dh_location_destination_time` varchar(45) DEFAULT NULL,
+  `dh_driver_name` varchar(45) DEFAULT NULL,
+  `dh_plateno` varchar(45) DEFAULT NULL,
+  `dh_driver_contact` varchar(45) DEFAULT NULL,
+  `dh_user_id` int(11) NOT NULL,
+  `dh_date_created` varchar(45) DEFAULT NULL,
+  `dh_trip_status` varchar(45) DEFAULT 'For Approval',
+  PRIMARY KEY (`dh_vehicle_trip_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dh_vehicletrip_calendar`
+--
+
+LOCK TABLES `dh_vehicletrip_calendar` WRITE;
+/*!40000 ALTER TABLE `dh_vehicletrip_calendar` DISABLE KEYS */;
+INSERT INTO `dh_vehicletrip_calendar` VALUES (3,'02-01-2018','SM Center Molino','8:00 AM ~ 8:30 AM','Ponticelli Gardens','9:30 AM ~ 10:00 AM','Sample Driver','ZXC 432','09361234567',1,'01-22-2018','For Approval');
+/*!40000 ALTER TABLE `dh_vehicletrip_calendar` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -340,4 +407,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-22  2:03:31
+-- Dump completed on 2018-01-22 15:50:57

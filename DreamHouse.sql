@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: localhost    Database: dh_database
+-- Host: 127.0.0.1    Database: dh_database
 -- ------------------------------------------------------
--- Server version	5.7.20-log
+-- Server version	5.7.19
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -351,7 +351,7 @@ CREATE TABLE `dh_users` (
   `login_counter` int(11) DEFAULT '0',
   `dh_account_create` varchar(25) DEFAULT 'Registration',
   PRIMARY KEY (`dh_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +360,7 @@ CREATE TABLE `dh_users` (
 
 LOCK TABLES `dh_users` WRITE;
 /*!40000 ALTER TABLE `dh_users` DISABLE KEYS */;
-INSERT INTO `dh_users` VALUES (1,2,1,'Tsumichan','VHN1bWljaGFuMTI=','01-16-2018','Active',0,0,NULL),(2,4,2,'Tsumichan12','VHN1bWljaGFuMTI=','01-20-2018','Active',0,0,'Registration'),(3,3,3,'TsumiSales','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode'),(4,2,4,'TsumiManager','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode');
+INSERT INTO `dh_users` VALUES (1,2,1,'Tsumichan','VHN1bWljaGFuMTI=','01-16-2018','Active',0,0,NULL),(2,4,2,'Tsumichan12','VHN1bWljaGFuMTI=','01-20-2018','Active',0,0,'Registration'),(3,3,3,'TsumiSales','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode'),(4,2,4,'TsumiManager','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode'),(5,5,5,'renzanima','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Registration'),(6,2,6,'melvinjay','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Encode'),(7,2,7,'dekllanes','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Encode'),(8,3,8,'Chinochins','RHJlYW1ob3VzZTE=','01-21-2018','For Activation',0,0,'Encode'),(9,3,9,'neciagrant','RHJlYW1ob3VzZTE=','01-21-2018','For Activation',0,0,'Encode'),(10,4,10,'Agbayanis','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Registration'),(11,4,11,'Karlgonzales','RHJlYW1ob3VzZTE=','01-21-2018','For Activation',0,0,'Registration');
 /*!40000 ALTER TABLE `dh_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -407,4 +407,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-22 15:50:57
+-- Dump completed on 2018-01-23  6:27:57

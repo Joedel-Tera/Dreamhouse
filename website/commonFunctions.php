@@ -433,6 +433,12 @@ if(!empty($_POST)){
 		echo $result;
 	}
 
+	if(isset($_POST['sortDownlineBySalesDir'])){
+		$ajax = new ajaxFunction();
+		$result = $ajax->getDownlinesSalesDirector($_POST['sortDownlineBySalesDir']);
+		echo $result;
+	}
+
 	if(isset($_POST['getClosing'])){
 		$ajax = new ajaxFunction();
 		$result = $ajax->getClosingSalesViaUserId($_POST['getClosing']);
@@ -443,6 +449,13 @@ if(!empty($_POST)){
 	if(isset($_POST['getUserProfile'])){
 		$ajax = new ajaxFunction();
 		$result = $ajax->getUserInfoViaUserId($_POST['getUserProfile']);
+
+		echo $result;
+	}
+
+	if(isset($_POST['getDownlinesViaId']) && isset($_POST['divId'])){
+		$ajax = new ajaxFunction();
+		$result = $ajax->getDownlinesPerDivision($_POST['divId'], $_POST['getDownlinesViaId']);
 
 		echo $result;
 	}
@@ -481,6 +494,6 @@ if(!empty($_POST)){
 
 
 } else {
-	Header("Location: index.php");
+	//Header("Location: index.php");
 }
 ?>

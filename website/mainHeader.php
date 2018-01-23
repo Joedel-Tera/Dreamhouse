@@ -48,7 +48,7 @@ $getCurrentMenu = $currentMenu;
     </div>
 
        <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top" style="margin-bottom:0px;">
       <div class="navbar-container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -62,15 +62,12 @@ $getCurrentMenu = $currentMenu;
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li <?php if($getCurrentMenu == 1){ ?> class="active" <?php }; ?> ><a href="index.php">Home</a></li>
-            <li <?php if($getCurrentMenu == 2){ ?> class="active" <?php }; ?> ><a href="#">About Us</a></li>
+            <li <?php if($getCurrentMenu == 2){ ?> class="active" <?php }; ?> ><a href="aboutus.php">About Us</a></li>
             <li <?php if($getCurrentMenu == 3){ ?> class="active" <?php }; ?> ><a href="#">Affiliated developers</a></li>
             <li <?php if($getCurrentMenu == 4){ ?> class="active" <?php }; ?> ><a href="#">Projects</a></li>
             <li <?php if($getCurrentMenu == 5){ ?> class="active" <?php }; ?> ><a href="#">Calculator</a></li>
-            <li <?php if($getCurrentMenu == 6){ ?> class="active" <?php }; ?> ><a href="#">FAQS</a></li>
-            <li <?php if($getCurrentMenu == 7){ ?> class="active" <?php }; ?> ><a href="#">Feedback</a></li>
             <li <?php if($getCurrentMenu == 8){ ?> class="active" <?php }; ?> ><a href="#">Contact Us</a></li>
             <li <?php if($getCurrentMenu == 9){ ?> class="active" <?php }; ?> ><a href="login.php">Login</a></li>
-            
           </div>
         </div>
     </nav>
@@ -98,8 +95,7 @@ $getCurrentMenu = $currentMenu;
   <?php if ($userType == '4') { ?>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-static-top">
-      <div class="navbar-container">
+    <nav class="navbar navbar-inverse navbar-static-top" style="margin-bottom:0px;">      <div class="navbar-container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -121,7 +117,7 @@ $getCurrentMenu = $currentMenu;
   <?php } else if ($userType == '3') { ?>
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-inverse navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top" style="margin-bottom:0px;">
       <div class="navbar-container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -144,8 +140,7 @@ $getCurrentMenu = $currentMenu;
 
   <?php } else if ($userType == '2') { ?>
 
-    <nav class="navbar navbar-inverse navbar-static-top">
-      <div class="navbar-container">
+    <nav class="navbar navbar-inverse navbar-static-top" style="margin-bottom:0px;">      <div class="navbar-container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -167,8 +162,7 @@ $getCurrentMenu = $currentMenu;
     </nav>
 
   <?php } else if ($userType == '5') { ?>
-    <nav class="navbar navbar-inverse navbar-static-top">
-      <div class="navbar-container">
+    <nav class="navbar navbar-inverse navbar-static-top" style="margin-bottom:0px;">      <div class="navbar-container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>

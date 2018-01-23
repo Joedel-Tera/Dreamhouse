@@ -12,60 +12,45 @@
 <body>
 	<?php include 'mainHeader.php'; ?>
 
-  <div class="content">
+  <div class="content" style="padding:0px">
     <?php if(isset($Message)){ ?>
         <div class="alert <?php if($MsgCode != 2){ ?> alert-success <?php } else { ?> alert-danger <?php } ?>" id="errMsg">
       &nbsp; <?php echo $Message; ?>!</div>
     <?php unset($_SESSION["Message"]); } ?>
+  </div>
+<?php include 'fullwidthSlider.php'; ?>
 
-    <div class="slider" style="height:600px;">
-        <div class="container">
-          <div id="about-slider">
-            <div id="carousel-slider" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-              <ol class="carousel-indicators visible-xs">
-                <li data-target="#carousel-slider" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-slider" data-slide-to="1"></li>
-                <li data-target="#carousel-slider" data-slide-to="2"></li>
-                <li data-target="#carousel-slider" data-slide-to="3"></li>
-                <li data-target="#carousel-slider" data-slide-to="4"></li>
-                <li data-target="#carousel-slider" data-slide-to="5"></li>
-              </ol>
+  <div class="container">
+      <div class="row">
+          <div class="mid-grid">
+                <h1 style="font-size:50px;color:#197319;"> Dream House Realty </h1>
+                <hr style="border-color:#000;">
+                <p style="padding: 50px;font-size: 18px;"> " At Dream House Realty, we are focused on providing  honest services with the highest levels of customer satisfaction we will do everything we can to meet your expectations. With a variety of offerings to choose from, we are sure you will be happy working with us. Look around our website and if you have any comments or questions, please feel free to contact us. We hope to see you again! Check back later for new updates to our website. There is much more to come! "
+                </p>
+          </div>
+          <div class="mid-grid">
+                  <br>
+                  <h1 style="font-size:46px;color:#197319;"> Affiliated Developers </h1>
+                  <hr style="border-color:#000;">
+                  <br>
+                  <div class="col-md-3">
+                    <img src="logo/Antel.png" style="width:100%" />
+                  </div>
 
-            <div class="carousel-inner">
-              <div class="item active">
-                <img src="img/cams.jpg" class="img-responsive" alt=""> 
-              </div>
-              <div class="item">
-                <img src="img/antel-grand.jpg" class="img-responsive" alt=""> 
-              </div> 
-              <div class="item">
-                <img src="img/lan1.jpg" class="img-responsive" alt=""> 
-              </div>
-              <div class="item">
-                <img src="img/cam1.jpg" class="img-responsive" alt=""> 
-              </div>
-              <div class="item">
-                <img src="img/agv5.jpg" class="img-responsive" alt=""> 
-              </div>
-              <div class="item">
-                <img src="img/agv1.jpg" class="img-responsive" alt=""> 
-              </div> 
-            </div>
-          
-              <a class="left carousel-control hidden-xs" href="#carousel-slider" data-slide="prev">
-                <i class="glyphicon glyphicon-chevron-left"></i> 
-              </a>
-          
-              <a class=" right carousel-control hidden-xs"href="#carousel-slider" data-slide="next">
-                <i class="glyphicon glyphicon-chevron-right"></i> 
-              </a>
-           </div> <!--/#carousel-slider-->
-          </div><!--/#about-slider-->
-        </div>
+                  <div class="col-md-3">
+                    <img src="logo/Bellefort.png" style="width:100%" />
+                  </div>
+
+                  <div class="col-md-3">
+                    <img src="logo/Lancaster.png" style="width:100%" />
+                  </div>
+
+                  <div class="col-md-3">
+                    <img src="logo/Profriends2.png" style="width:100%" />
+                  </div>
+          </div>
       </div>
   </div>
-
 
   <?php include 'footerFiles.php'; ?>
   <script src="js/jquery.js"></script>

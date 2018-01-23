@@ -4,10 +4,12 @@
 		$currentMenu = 22;
 		$userGroup = 2;
 		$division = $_SESSION['user_division'];
+		$userId = $_SESSION['user_session'];
 
 	$user = new User();
 
 	$user->isPageAccessible($_SESSION['user_type'], $userGroup);
+	$saleDirectorsByDiv = $user->getSaleDirectorPerDivision($division);
 	$myDownlines = $user->getDownlinesPerDivision($division, $_SESSION['user_session']);
 	$mySales = $user->getMyClosingSales($_SESSION['user_session']);
 
@@ -42,8 +44,20 @@
 					<!-- Start For Seminar Schedule -->
 					<div id="myDownlines" class="tab-pane fade in active" style="padding:25px">
 						<h2> My Current Downlines </h2>
+						<div class="col-md-4 col-md-offset-4">
+							<label> Select a Sales Director to Check its Downline </label>
+							<input type="hidden" id="divisionId" value="<?php echo $division; ?>">
+							<input type="hidden" id="userId" value="<?php echo $userId; ?>">
+							<select class="form-control" id="sortDownlinesBySaleDir">
+								<option value=""> Select Sales Director </option>
+								<?php foreach($saleDirectorsByDiv as $dirData){ ?>
+									<option value="<?php echo $dirData['dh_user_id']; ?> "> <?php echo $dirData['dh_firstName'].' '.$dirData['dh_lastName']; ?> </option>
+								<?php } ?>
+							</select>
+						</div>
+						<div style="clear:both;"></div>
 						<hr>
-							<table class="table table-condensed table-hover table-striped">
+							<table class="table table-condensed table-hover table-striped" id="tableDownlines">
 								<thead>
 									<tr>
 										<th style="text-align: center;"> Action </th>
@@ -52,7 +66,6 @@
 										<th> Email </th>
 										<th> Created Date </th>
 										<th> Status </th>
-										
 									</tr>
 								</thead>
 								<tbody>
@@ -99,25 +112,25 @@
 								</tr>
 							</thead>
 							<tbody>
-									<?php if(count($mySales) > 0) { ?> 
-									<?php foreach ($mySales as $saleData) { ?>
-										<tr>
-												<td> <?php echo $saleData['dh_firstName'].' '.$saleData['dh_familyName']; ?> </td>
-												<td> <?php echo $saleData['dh_phoneNo']; ?> </td>
-												<td> <?php echo $saleData['dh_subdivision']; ?> </td>
-												<td> <?php echo $saleData['dh_location']; ?> </td>
-												<td> <?php echo $saleData['dh_developer']; ?> </td>
-												<td> <?php echo $saleData['dh_reservationFee']; ?> </td>
-												<td> <?php echo $saleData['dh_closingDate']; ?> </td>
-										</tr>
-									<?php } ?>
-									<?php } else { ?>
-										<tr> 
-											<td colspan="7" style="text-align: center; color:red;"> 
-												<h2> No Closing Sales </h2>
-											</td>
-										</tr>
-									<?php } ?>
+								<?php if(count($mySales) > 0) { ?> 
+								<?php foreach ($mySales as $saleData) { ?>
+									<tr>
+										<td> <?php echo $saleData['dh_firstName'].' '.$saleData['dh_familyName']; ?> </td>
+										<td> <?php echo $saleData['dh_phoneNo']; ?> </td>
+										<td> <?php echo $saleData['dh_subdivision']; ?> </td>
+										<td> <?php echo $saleData['dh_location']; ?> </td>
+										<td> <?php echo $saleData['dh_developer']; ?> </td>
+										<td> <?php echo $saleData['dh_reservationFee']; ?> </td>
+										<td> <?php echo $saleData['dh_closingDate']; ?> </td>
+									</tr>
+								<?php } ?>
+								<?php } else { ?>
+									<tr> 
+										<td colspan="7" style="text-align: center; color:red;"> 
+											<h2> No Closing Sales </h2>
+										</td>
+									</tr>
+								<?php } ?>
 							</tbody>
 						</table> 	
 					</div>
@@ -186,11 +199,11 @@
 								</tr>
 							</thead>
 							<tbody>
-									<tr>
-											<td colspan="6" style="text-align:center;">
-												<h2 style="color:red;"> No Closing Sales </h2>
-											</td>
-									</tr>
+								<tr>
+									<td colspan="6" style="text-align:center;">
+										<h2 style="color:red;"> No Closing Sales </h2>
+									</td>
+								</tr>
 							</tbody>
 						</table> 
 				</div>
@@ -235,7 +248,7 @@
 									<label> Gender : </label> <span id="spangender">  </span><br>
 									<label> Tin No# : </label> <span id="spantinNo">  </span><br>
 									<label> Email Address : </label> <span id="spanemail">  </span> <br>
-								  <label> Contact No. : </label> <span id="spancontactNo">  </span> <br>
+									<label> Contact No. : </label> <span id="spancontactNo">  </span> <br>
 									<label> Home Address : </label> <span id="spanaddress">  </span><br><br><br>
 
 									<label> User Type : </label> <span id="spangroupName">  </span><br>
@@ -250,119 +263,180 @@
 
 
 	<?php include 'footerFiles.php'; ?>
-	<script src="js/jquery.js"></script>
-	<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
-	<script type="text/javascript" src="locales/jquery-1.8.3.min.js" charset="UTF-8"></script>
-	<script type="text/javascript" src="locales/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-	<script type="text/javascript" src="locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
-	<script type="text/javascript">
-				$('.form_date').datetimepicker({
-								language:  'ar',
-								weekStart: 1,
-								todayBtn:  1,
-								autoclose: 1,
-								todayHighlight: 1,
-								startView: 2,
-								minView: 2,
-								forceParse: 0,
-						});
-		</script>
-		<script>
-			$(document).ready(function(){
-				$('.viewClosing').each(function(){
-					var _this = $(this);
-					_this.on('click',function(){
-						var empId = _this.parent().parent().find('.empId').val();
-							$.ajax({
-	                type: 'POST',
-	                url: '../website/commonFunctions.php',
-	                data: {
-	                    'getClosing': empId
-	                },
-	                dataType: 'json',
-	                success: function(data){
-	                    
-	                    if(data.length > 0){
-	                    		$('#closingSalesTable tbody tr').remove();
-	                    		for (var i = 0; i <= data.length - 1; i++) {
-	                    			$('#closingSalesTable tbody').append("<tr><td>"+ data[i].dh_firstName +' '+ data[i].dh_familyName + "</td><td>"+ data[i].dh_phoneNo + "</td><td>" + data[i].dh_subdivision + "</td><td>" + data[i].dh_location + "</td><td>" + data[i].dh_developer + "</td><td>" + data[i].dh_reservationFee + "</td></tr>");
-	                    		}
-	                    		$('#closingSales').modal('show');
-	                    } else {
-	                    		$('#closingSalesEmpty').modal('show');
-	                    }
+<script src="js/jquery.js"></script>
+<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="locales/jquery-1.8.3.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="locales/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+<script type="text/javascript">
+	$('.form_date').datetimepicker({
+		language:  'ar',
+		weekStart: 1,
+		todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0,
+	});
+</script>
+<script>
+
+$(document).ready(function(){
+	viewClosing();
+	viewProfile();
+	getDownlines();
+
+
+	// hide #back-top first
+	$("#back-top").hide();
+	
+	// fade in #back-top
+	$(function () {
+		
+
+		$(window).scroll(function () {
+			if ($(this).scrollTop() > 100) {
+				$('#back-top').fadeIn();
+			} else {
+				$('#back-top').fadeOut();
+			}
+		});
+
+		// scroll body to 0px on click
+		$('#back-top a').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 800);
+			return false;
+		});
+	});
+});
+
+function getDownlines(){
+	$('#sortDownlinesBySaleDir').on('change',function(){
+		var saleDirectorId = $(this).val();
+		var divId = $('#divisionId').val();
+		var userId = $('#userId').val()
+		var values = {
+			'getDownlinesViaId': userId,
+            'divId' : divId
+		}
+		if($(this).val() != ''){
+			$.ajax({
+	            type: 'POST',
+	            url: '../website/commonFunctions.php',
+	            data: {
+	                'sortDownlineBySalesDir': saleDirectorId
+	            },
+	            dataType: 'json',
+	            success: function(data){
+	                if(data.length > 0){
+	                	$('#tableDownlines tbody tr').remove();
+	                	for (var i = 0; i <= data.length - 1; i++) {
+                			$('#tableDownlines tbody').append(
+                				"<tr><td style='vertical-align: middle;text-align: center;'><button class='btn btn-sm btn-primary viewClosing'> View Closing Sales </button> <button class='btn btn-sm btn-info viewProfile'> View Profile </button> </td><input type='hidden' class='empId' value='"+data[i].dh_user_id+"'><td>"+ data[i].dh_firstName +' '+ data[i].dh_lastName + "</td><td>"+ data[i].dh_user_group_name + "</td><td>" + data[i].dh_email_address + "</td><td>" + data[i].dh_date_created + "</td><td>" + data[i].dh_status + "</td></tr>");
+                		}
 	                }
-	            });
-						
-					});
-				});
+	                viewClosing();
+	                viewProfile();
+	            }
+	        });
+		} else {
+			$.ajax({
+	            type: 'POST',
+	            url: '../website/commonFunctions.php',
+	            data: values,
+	            dataType: 'json',
+	            success: function(data){
+	                if(data.length > 0){
+	                	$('#tableDownlines tbody tr').remove();
+	                	for (var i = 0; i <= data.length - 1; i++) {
+                			$('#tableDownlines tbody').append(
+                				"<tr><td style='vertical-align: middle;text-align: center;'><button class='btn btn-sm btn-primary viewClosing'> View Closing Sales </button> <button class='btn btn-sm btn-info viewProfile'> View Profile </button> </td><input type='hidden' class='empId' value='"+data[i].dh_user_id+"'><td>"+ data[i].dh_firstName +' '+ data[i].dh_lastName + "</td><td>"+ data[i].dh_user_group_name + "</td><td>" + data[i].dh_email_address + "</td><td>" + data[i].dh_date_created + "</td><td>" + data[i].dh_status + "</td></tr>");
+                		}
+	                }
+	                viewClosing();
+	                viewProfile();
+	            }
+	        });
+		}
+        
+        
+	});
+}
 
-				$('.viewProfile').each(function(){
-						var _this = $(this);
-						_this.on('click', function(){
-								var empId = _this.parent().parent().find('.empId').val();
-										$.ajax({
-												type: 'POST',
-												url: '../website/commonFunctions.php',
-												data: {
-													'getUserProfile' : empId
-												},
-												dataType: 'json',
-												success: function(data){
-														if(data){
-															$('#spanfullName').text(data.dh_firstName +' '+ data.dh_lastName);
-															$('#spandateCreated').text(data.dh_date_created);
-															$('#spanspouseName').text(data.dh_user_spousename);
-															$('#spanDOB').text(data.dh_bday);
-														  $('#spanAge').text(data.dh_age);
-															$('#spangender').text(data.dh_gender);
-														  $('#spantinNo').text(data.dh_tin_number);
-															$('#spanemail').text(data.dh_email_address);
-															$('#spancontactNo').text(data.dh_contact_no);
-															$('#spanaddress').text(data.dh_home_address);
-															$('#spangroupName').text(data.dh_user_group_name);
-															$('#spandivisionName').text(data.dh_division_name);
-															$('#showProfile').modal('show');
-														} else {
-															$('#errorOccured').modal('show');
-														}
-												}
-										});
-						});
-				});
+function viewClosing(){
+	$('.viewClosing').each(function(){
+		var _this = $(this);
+		_this.on('click', function(){
+			var empId = _this.parent().parent().find('.empId').val();
+			$.ajax({
+                type: 'POST',
+                url: '../website/commonFunctions.php',
+                data: {
+                    'getClosing': empId
+                },
+                dataType: 'json',
+                success: function(data){
+                    if(data.length > 0){
+                		$('#closingSalesTable tbody tr').remove();
+                		for (var i = 0; i <= data.length - 1; i++) {
+                			$('#closingSalesTable tbody').append("<tr><td>"+ data[i].dh_firstName +' '+ data[i].dh_familyName + "</td><td>"+ data[i].dh_phoneNo + "</td><td>" + data[i].dh_subdivision + "</td><td>" + data[i].dh_location + "</td><td>" + data[i].dh_developer + "</td><td>" + data[i].dh_reservationFee + "</td></tr>");
+                		}
+                		$('#closingSales').modal('show');
+                    } else {
+                		$('#closingSalesEmpty').modal('show');
+                    }
+                }
+            });
+		});
+	});
+}
 
-
-
-				// hide #back-top first
-				$("#back-top").hide();
-				
-				// fade in #back-top
-				$(function () {
-					$(window).scroll(function () {
-						if ($(this).scrollTop() > 100) {
-							$('#back-top').fadeIn();
-						} else {
-							$('#back-top').fadeOut();
-						}
-					});
-
-					// scroll body to 0px on click
-					$('#back-top a').click(function () {
-						$('body,html').animate({
-							scrollTop: 0
-						}, 800);
-						return false;
-					});
-				});
-
+function viewProfile(){
+	$('.viewProfile').each(function(){
+		var _this = $(this);
+		_this.on('click', function(){
+			var empId = _this.parent().parent().find('.empId').val();
+			$.ajax({
+				type: 'POST',
+				url: '../website/commonFunctions.php',
+				data: {
+					'getUserProfile' : empId
+				},
+				dataType: 'json',
+				success: function(data){
+					if(data){
+						$('#spanfullName').text(data.dh_firstName +' '+ data.dh_lastName);
+						$('#spandateCreated').text(data.dh_date_created);
+						$('#spanspouseName').text(data.dh_user_spousename);
+						$('#spanDOB').text(data.dh_bday);
+						$('#spanAge').text(data.dh_age);
+						$('#spangender').text(data.dh_gender);
+						$('#spantinNo').text(data.dh_tin_number);
+						$('#spanemail').text(data.dh_email_address);
+						$('#spancontactNo').text(data.dh_contact_no);
+						$('#spanaddress').text(data.dh_home_address);
+						$('#spangroupName').text(data.dh_user_group_name);
+						$('#spandivisionName').text(data.dh_division_name);
+						$('#showProfile').modal('show');
+					} else {
+						$('#errorOccured').modal('show');
+					}
+				}
 			});
-		</script>
-		 <script type="text/javascript">
-			$('#errMsg').fadeOut(5000); 
-		</script>
-		<!-- Bootstrap Core JavaScript -->
-		<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
-		<script src="js/bootstrap.min.js"></script>
+		});
+	});
+}
+
+</script>
+<script type="text/javascript">
+	$('#errMsg').fadeOut(5000); 
+</script>
+<!-- Bootstrap Core JavaScript -->
+<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

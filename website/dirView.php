@@ -8,7 +8,7 @@
 	$user = new User();
 
 	$user->isPageAccessible($_SESSION['user_type'], $userGroup);
-	$myDownlines = $user->getDownlinesPerDivisionSalesDirector($division);
+	$myDownlines = $user->getDownlinesSalesDirector($_SESSION['user_session']);
 	$mySales = $user->getMyClosingSales($_SESSION['user_session']);
 
 ?>

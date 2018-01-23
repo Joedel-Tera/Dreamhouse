@@ -1,8 +1,8 @@
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: dh_database
+-- Host: localhost    Database: dh_database
 -- ------------------------------------------------------
--- Server version	5.7.19
+-- Server version	5.7.20-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -57,7 +57,7 @@ CREATE TABLE `dh_closing` (
 
 LOCK TABLES `dh_closing` WRITE;
 /*!40000 ALTER TABLE `dh_closing` DISABLE KEYS */;
-INSERT INTO `dh_closing` VALUES (3,'Chan','Tsumi','09367661063','','Ponticelli Hills','Molino, Cavite','Camella Homes','2','8','4','Unknown','50','150',NULL,'15000','','7','90','90','2018-01-20','2018-01-20','0','0'),(4,'Chan','Tsumi','09367661063',NULL,'Ponticelli Hills','Molino, Cavite','Camella Homes','2','8','4','Unknown','50','150',NULL,'15000',NULL,'7','','','2018-01-02','2018-01-20','1','2'),(5,'Chan','Tsumi','09367661063','','Ponticelli Hills 2','Molino, Cavite','Camella Homes','2','8','4','Unknown','50','150',NULL,'15000','','7','','','2018-01-02','2018-01-21','1','2');
+INSERT INTO `dh_closing` VALUES (3,'Chan','Tsumi','09367661063','','Ponticelli Hills','Molino, Cavite','Camella Homes','2','8','4','Unknown','50','150',NULL,'15000','','7','90','90','01-20-2018','01-20-2018','1','2'),(4,'Chan','Tsumi 2','09367661063',NULL,'Ponticelli Hills 2','Molino, Cavite','Camella Homes','2','8','4','Unknown','50','150',NULL,'15000',NULL,'7','','','01-02-2018','01-20-2018','1','2'),(5,'Chan','Tsumi 3','09367661063','','Ponticelli Hills 3','Molino, Cavite','Camella Homes','2','8','4','Unknown','50','150',NULL,'15000','','7','','','01-02-2018','01-21-2018','1','2');
 /*!40000 ALTER TABLE `dh_closing` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,6 +83,31 @@ LOCK TABLES `dh_developers` WRITE;
 /*!40000 ALTER TABLE `dh_developers` DISABLE KEYS */;
 INSERT INTO `dh_developers` VALUES (1,'Camella Homes'),(2,'Antel Grand'),(3,'My Citi Homes'),(4,'Profriends'),(5,'Duraville Realty & Devt. Corp');
 /*!40000 ALTER TABLE `dh_developers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dh_divisions`
+--
+
+DROP TABLE IF EXISTS `dh_divisions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dh_divisions` (
+  `dh_division_id` int(11) NOT NULL AUTO_INCREMENT,
+  `dh_division_name` varchar(45) DEFAULT NULL,
+  `dh_division_status` int(11) DEFAULT '0',
+  PRIMARY KEY (`dh_division_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dh_divisions`
+--
+
+LOCK TABLES `dh_divisions` WRITE;
+/*!40000 ALTER TABLE `dh_divisions` DISABLE KEYS */;
+INSERT INTO `dh_divisions` VALUES (1,'Division 1',0),(2,'Division 2',0),(3,'Division 3',0),(4,'Division 4',0),(5,'Division 5',0),(6,'Division 6',0),(7,'Division 7',0);
+/*!40000 ALTER TABLE `dh_divisions` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -237,6 +262,7 @@ DROP TABLE IF EXISTS `dh_user_details`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dh_user_details` (
   `dh_user_details_id` int(11) NOT NULL,
+  `dh_division_id` int(11) NOT NULL,
   `dh_firstName` varchar(150) DEFAULT NULL,
   `dh_middleName` varchar(45) DEFAULT NULL,
   `dh_lastName` varchar(150) DEFAULT NULL,
@@ -273,7 +299,7 @@ CREATE TABLE `dh_user_details` (
 
 LOCK TABLES `dh_user_details` WRITE;
 /*!40000 ALTER TABLE `dh_user_details` DISABLE KEYS */;
-INSERT INTO `dh_user_details` VALUES (1,'Joedel','Bangcuyo','Espinosa','','Tsumiii','01-10-2018',26,'Male',999999999,'Strafer14@yahoo.com','09367661063','Las Pinas','','01-02-2018','Test Seminar','','','','','','','Rodelio D. Parafina','','','',''),(2,'Joedel Test','Bangcuyo','Espinosa','','Tsumiii Test','01-03-2018',15,'Male',999999999,'Strafer13@yahoo.com','09367661063','Las Pinas','','12-27-2017','Test Seminar','','','','','','','Rodelio D. Parafina','','','',''),(3,'Joedel Sales','Bangcuyo','Espinosa','','Tsumiii Sales','01-03-2018',25,'Male',999999999,'Strafer14@yahoo.com','09367661063','Las Pinas','','01-03-2018','Test Seminar','','','','',NULL,'Select Division Manager','Rodelio D. Parafina','','','',''),(4,'Joedel Manager','Bangcuyo','Espinosa','','Tsumiii Manager','',25,'Male',999999999,'Strafer14@yahoo.com','09367661063','Las Pinas','','','Test Seminar','','','','',NULL,NULL,'Rodelio D. Parafina','','','',''),(5,'renz','','Anima','','','12-08-1997',20,'Male',0,'renzanima@gmail.com','09538312034','imus, cavite','','01-19-2018','Gen Trias, Cavite','','','','','','','Rodelio D. Parafina','','','',''),(6,'Melvin jay','','Erlano','','','',20,'Male',0,'erlanomelvin@gmail.com','09268317604','Addas, Bacoor, Cavite','','','Gen Trias, Cavite','','','8','',NULL,NULL,'Rodelio D. Parafina','','','',''),(7,'Reuben','','Llanes','','','',20,'Male',0,'bimbyllanes@gmail.com','09768311977','Zapote, Cavite','','','Bacoor, Cavite','','','7','',NULL,NULL,'Rodelio D. Parafina','','','',''),(8,'Chino','Paso','Apacible','','','06-24-1995',22,'Male',0,'chinopapac@yahoo.com','09750123959','Paliparan, Cavite','','01-18-2018','Gen Trias, Cavite','Melvin Jay Erlano','Division Manager','8','',NULL,'6','Rodelio D. Parafina','','','',''),(9,'Grant','','Necia','','','11-02-1997',25,'Male',0,'grantneciagrant@gmail.com','09994172155','Summer Pointe, Molino, Cavite','','','','Reuben Llanes','Division Manager','7','',NULL,'7','Rodelio D. Parafina','','','',''),(10,'Rustine','','Agbayani','','','05-10-1996',23,'Male',0,'louiseagbayani@ymail.com','09278102034','Dasmarinas, Cavite','','','','Grant Necia','Sales Director','7','','Grant Necia','Reuben Llanes','Rodelio D. Parafina','','','',''),(11,'Karl','','Gonzales','','','02-14-1995',21,'Male',0,'Guitarpick@gmail.com','09095012346','Paliparan, Cavite','','10-16-1997','Gen Trias, Cavite','Chino Apacible','Sales Director','8','','Chino Apacible','Melvin jay Erlano','Rodelio D. Parafina','','','','');
+INSERT INTO `dh_user_details` VALUES (1,1,'Joedel','Bangcuyo','Espinosa','','Tsumiii','01-10-2018',26,'Male',999999999,'Strafer14@yahoo.com','09367661063','Las Pinas','','01-02-2018','Test Seminar','','','','','','','Rodelio D. Parafina','','','',''),(2,1,'Joedel Test','Bangcuyo','Espinosa','','Tsumiii Test','01-03-2018',15,'Male',999999999,'Strafer13@yahoo.com','09367661063','Las Pinas','','12-27-2017','Test Seminar','','','','','','','Rodelio D. Parafina','','','',''),(3,1,'Joedel Sales','Bangcuyo','Espinosa','','Tsumiii Sales','01-03-2018',25,'Male',999999999,'Strafer14@yahoo.com','09367661063','Las Pinas','','01-03-2018','Test Seminar','','','','',NULL,'Select Division Manager','Rodelio D. Parafina','','','',''),(4,1,'Joedel Manager','Bangcuyo','Espinosa','','Tsumiii Manager','',25,'Male',999999999,'Strafer14@yahoo.com','09367661063','Las Pinas','','','Test Seminar','','','','',NULL,NULL,'Rodelio D. Parafina','','','',''),(5,7,'renz','','Anima','','','12-08-1997',20,'Male',0,'renzanima@gmail.com','09538312034','imus, cavite','','01-19-2018','Gen Trias, Cavite','','','','','','','Rodelio D. Parafina','','','',''),(6,5,'Melvin jay','','Erlano','','','',20,'Male',0,'erlanomelvin@gmail.com','09268317604','Addas, Bacoor, Cavite','','','Gen Trias, Cavite','','','','',NULL,NULL,'Rodelio D. Parafina','','','',''),(7,6,'Reuben','','Llanes','','','',20,'Male',0,'bimbyllanes@gmail.com','09768311977','Zapote, Cavite','','','Bacoor, Cavite','','','','',NULL,NULL,'Rodelio D. Parafina','','','',''),(8,5,'Chino','Paso','Apacible','','','06-24-1995',22,'Male',0,'chinopapac@yahoo.com','09750123959','Paliparan, Cavite','','01-18-2018','Gen Trias, Cavite','6','2','5','',NULL,'6','Rodelio D. Parafina','','','',''),(9,6,'Grant','','Necia','','','11-02-1997',25,'Male',0,'grantneciagrant@gmail.com','09994172155','Summer Pointe, Molino, Cavite','','','','7','2','6','',NULL,'7','Rodelio D. Parafina','','','',''),(10,6,'Rustine','','Agbayani','','','05-10-1996',23,'Male',0,'louiseagbayani@ymail.com','09278102034','Dasmarinas, Cavite','','','','9','3','6','','9','7','Rodelio D. Parafina','','','',''),(11,5,'Karl','','Gonzales','','','02-14-1995',21,'Male',0,'Guitarpick@gmail.com','09095012346','Paliparan, Cavite','','10-16-1997','Gen Trias, Cavite','8','3','5','','8','6','Rodelio D. Parafina','','','',''),(12,7,'Admiral','','Kunkka','','Attacker','12-25-1990',27,'Male',123456789,'kunkka@dota2.com','09999999999','Dota 2','','','',NULL,NULL,NULL,'',NULL,NULL,'Rodelio D. Parafina','','','',''),(13,7,'Lina','','Inverse','','Lina','',23,'Female',123456789,'Lina@dota2.com','09999999999','Dota 2','','','Dota 2 Seminar','12','2','7','',NULL,'12','Rodelio D. Parafina','','','','');
 /*!40000 ALTER TABLE `dh_user_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -294,7 +320,7 @@ CREATE TABLE `dh_user_education` (
   `dh_year_to` varchar(25) DEFAULT NULL,
   `is_vocational` int(11) DEFAULT '0',
   PRIMARY KEY (`dh_user_educ_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -303,7 +329,7 @@ CREATE TABLE `dh_user_education` (
 
 LOCK TABLES `dh_user_education` WRITE;
 /*!40000 ALTER TABLE `dh_user_education` DISABLE KEYS */;
-INSERT INTO `dh_user_education` VALUES (1,1,'School','School 1 Location','1','2000','2004',0),(2,1,'School','School 2 Location','2','1996','2000',0),(3,1,'School','School 3 Location','3','2000','2000',0),(4,1,'School','School 4 Location','4','1000','1000',0),(5,2,'School','School 1 Location','1','2000','2004',0),(6,2,'School','School 1 Location','1','2000','2004',0),(7,2,'School','School 1 Location','1','2000','2004',0),(8,2,'School','School 1 Location','1','2000','2004',0),(9,3,'School','School 1 Location','BSIT','2000','2004',0),(10,3,'','','','','',0),(11,3,'','','','','',0),(12,3,'','','','','',0),(13,4,'School','School 1 Location','BSAC','2000','2004',0),(14,4,'','','','','',0),(15,4,'','','','','',0),(16,4,'','','','','',0),(17,5,'perpetual molino','bacoor, cavite','BSIT','2014','2018',0),(18,5,'','','','','',0),(19,5,'','','','','',0),(20,5,'','','','','',0),(21,6,'perpetual molino','molino, bacoor, cavite','BSIT','2014','2018',0),(22,6,'','','','','',0),(23,6,'','','','','',0),(24,6,'','','','','',0),(25,7,'CVSU Imus','Imus, Cavite','BS Marine','2012','2017',0),(26,7,'','','','','',0),(27,7,'','','','','',0),(28,7,'','','','','',0),(29,8,'DLSU Dasmarinas','Dasmarinas, Cavite','BS Engineer','2013','2019',0),(30,8,'','','','','',0),(31,8,'','','','','',0),(32,8,'','','','','',0),(33,9,'Adamson University','Carmona, Cavite','BSBA','2011','2016',0),(34,9,'','','','','',0),(35,9,'','','','','',0),(36,9,'','','','','',0),(37,10,'FEU Cavite','Silang, Cavite','BSIT','2014','2019',0),(38,10,'','','','','',0),(39,10,'','','','','',0),(40,10,'','','','','',0),(41,11,'LPU Cavite','Gen Trias, Cavite','BS Architecture','2012','2015',0),(42,11,'','','','','',0),(43,11,'','','','','',0),(44,11,'','','','','',0);
+INSERT INTO `dh_user_education` VALUES (1,1,'School','School 1 Location','1','2000','2004',0),(2,1,'School','School 2 Location','2','1996','2000',0),(3,1,'School','School 3 Location','3','2000','2000',0),(4,1,'School','School 4 Location','4','1000','1000',0),(5,2,'School','School 1 Location','1','2000','2004',0),(6,2,'School','School 1 Location','1','2000','2004',0),(7,2,'School','School 1 Location','1','2000','2004',0),(8,2,'School','School 1 Location','1','2000','2004',0),(9,3,'School','School 1 Location','BSIT','2000','2004',0),(10,3,'','','','','',0),(11,3,'','','','','',0),(12,3,'','','','','',0),(13,4,'School','School 1 Location','BSAC','2000','2004',0),(14,4,'','','','','',0),(15,4,'','','','','',0),(16,4,'','','','','',0),(17,5,'perpetual molino','bacoor, cavite','BSIT','2014','2018',0),(18,5,'','','','','',0),(19,5,'','','','','',0),(20,5,'','','','','',0),(21,6,'perpetual molino','molino, bacoor, cavite','BSIT','2014','2018',0),(22,6,'','','','','',0),(23,6,'','','','','',0),(24,6,'','','','','',0),(25,7,'CVSU Imus','Imus, Cavite','BS Marine','2012','2017',0),(26,7,'','','','','',0),(27,7,'','','','','',0),(28,7,'','','','','',0),(29,8,'DLSU Dasmarinas','Dasmarinas, Cavite','BS Engineer','2013','2019',0),(30,8,'','','','','',0),(31,8,'','','','','',0),(32,8,'','','','','',0),(33,9,'Adamson University','Carmona, Cavite','BSBA','2011','2016',0),(34,9,'','','','','',0),(35,9,'','','','','',0),(36,9,'','','','','',0),(37,10,'FEU Cavite','Silang, Cavite','BSIT','2014','2019',0),(38,10,'','','','','',0),(39,10,'','','','','',0),(40,10,'','','','','',0),(41,11,'LPU Cavite','Gen Trias, Cavite','BS Architecture','2012','2015',0),(42,11,'','','','','',0),(43,11,'','','','','',0),(44,11,'','','','','',0),(45,12,'','','','','',0),(46,12,'','','','','',0),(47,12,'','','','','',0),(48,12,'','','','','',0),(49,13,'','','','','',0),(50,13,'','','','','',0),(51,13,'','','','','',0),(52,13,'','','','','',0);
 /*!40000 ALTER TABLE `dh_user_education` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -351,7 +377,7 @@ CREATE TABLE `dh_users` (
   `login_counter` int(11) DEFAULT '0',
   `dh_account_create` varchar(25) DEFAULT 'Registration',
   PRIMARY KEY (`dh_user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,7 +386,7 @@ CREATE TABLE `dh_users` (
 
 LOCK TABLES `dh_users` WRITE;
 /*!40000 ALTER TABLE `dh_users` DISABLE KEYS */;
-INSERT INTO `dh_users` VALUES (1,2,1,'Tsumichan','VHN1bWljaGFuMTI=','01-16-2018','Active',0,0,NULL),(2,4,2,'Tsumichan12','VHN1bWljaGFuMTI=','01-20-2018','Active',0,0,'Registration'),(3,3,3,'TsumiSales','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode'),(4,2,4,'TsumiManager','VHN1bWljaGFuMTI=','01-21-2018','For Activation',0,0,'Encode'),(5,5,5,'renzanima','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Registration'),(6,2,6,'melvinjay','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Encode'),(7,2,7,'dekllanes','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Encode'),(8,3,8,'Chinochins','RHJlYW1ob3VzZTE=','01-21-2018','For Activation',0,0,'Encode'),(9,3,9,'neciagrant','RHJlYW1ob3VzZTE=','01-21-2018','For Activation',0,0,'Encode'),(10,4,10,'Agbayanis','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Registration'),(11,4,11,'Karlgonzales','RHJlYW1ob3VzZTE=','01-21-2018','For Activation',0,0,'Registration');
+INSERT INTO `dh_users` VALUES (1,2,1,'Tsumichan','VHN1bWljaGFuMTI=','01-16-2018','Active',0,0,NULL),(2,4,2,'Tsumichan12','VHN1bWljaGFuMTI=','01-20-2018','Active',0,0,'Registration'),(3,3,3,'TsumiSales','VHN1bWljaGFuMTI=','01-21-2018','Active',0,0,'Encode'),(4,2,4,'TsumiManager','VHN1bWljaGFuMTI=','01-21-2018','Active',0,0,'Encode'),(5,5,5,'renzanima','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Registration'),(6,2,6,'melvinjay','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Encode'),(7,2,7,'dekllanes','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Encode'),(8,3,8,'Chinochins','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Encode'),(9,3,9,'neciagrant','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Encode'),(10,4,10,'Agbayanis','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Registration'),(11,4,11,'Karlgonzales','RHJlYW1ob3VzZTE=','01-21-2018','Active',0,0,'Registration'),(12,2,12,'AdmiralKunkka','QWRtaXJhbDEy','01-23-2018','Active',0,0,'Encode'),(13,3,13,'LinaInverser','TGluYUludmVyc2UxMg==','01-23-2018','For Activation',0,0,'Encode');
 /*!40000 ALTER TABLE `dh_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -407,4 +433,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-01-23  6:27:57
+-- Dump completed on 2018-01-23 16:07:17

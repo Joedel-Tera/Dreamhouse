@@ -1,6 +1,8 @@
 <?php
 include '../config/config.php';
 include '../common/class.users.php';
+include '../common/class.ajax.php';
+
 session_start();
 
 if(!empty($_POST)){
@@ -89,7 +91,8 @@ if(!empty($_POST)){
 			'educAttainment' => $_POST['educAttainment'],
 			'educYearFrom' => $_POST['educYearFrom'],
 			'educYearTo' => $_POST['educYearTo'],
-			'accountCreate' => 'Encode'
+			'accountCreate' => 'Encode',
+			'divisionId' => $_POST['recruitedByDiv']
 		);
 
 		$result = $user->insertUserData($params);
@@ -120,9 +123,9 @@ if(!empty($_POST)){
 			'occupation' => $_POST['occupation'],
 			'seminarDate' => $_POST['seminarDate'],
 			'seminarVenue' => $_POST['seminarVenue'],
-			'recruitedBy' => $_POST['recruitedBy'],
-			'recruitedByPos' => $_POST['recruitedByPos'],
-			'recruitedByDiv' => $_POST['recruitedByDiv'],
+			'recruitedBy' => null,
+			'recruitedByPos' => null,
+			'recruitedByDiv' => null,
 			'trainorName' => $_POST['trainorName'],
 			'salesDirector' => null,
 			'divManager' => null,
@@ -135,7 +138,8 @@ if(!empty($_POST)){
 			'educAttainment' => $_POST['educAttainment'],
 			'educYearFrom' => $_POST['educYearFrom'],
 			'educYearTo' => $_POST['educYearTo'],
-			'accountCreate' => 'Encode'
+			'accountCreate' => 'Encode',
+			'divisionId' => $_POST['divisionId']
 		);
 
 		$result = $user->insertUserData($params);
@@ -180,7 +184,7 @@ if(!empty($_POST)){
 	        'salesdirector' => $_POST['salesdirector'],
 	        'preparedBy' => $_POST['preparedBy'],
 	        'closingdate' => $_POST['closingDate'],
-	        'dateCreated' => date('Y-m-d'),
+	        'dateCreated' => date('m-d-Y'),
 	        'user' => $_POST['userId']
 	    );
 
@@ -367,6 +371,26 @@ if(!empty($_POST)){
 	    	$_SESSION['MsgCode'] = 2;
 			$user->redirect('divRequestSched.php');
 		}
+	}
+
+
+
+
+	/*
+	 * AJAX FUNCTIONS 
+	 *
+	 */
+	if(isset($_POST['id'])){
+		$ajax = new ajaxFunction();
+		$result = $ajax->getUserViaId($_POST['id']);
+		echo $result;
+	}
+
+	if(isset($_POST['getClosing'])){
+		$ajax = new ajaxFunction();
+		$result = $ajax->getClosingSalesViaUserId($_POST['getClosing']);
+
+		echo $result;
 	}
 
 

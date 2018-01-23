@@ -9,6 +9,7 @@
   $user = new User();
   $allSalesDirector = $user->getAllActiveSalesDirector();
   $allDivisionManager = $user->getAllActiveDivisionManager();
+  $recruitedByUser = $user->getAllSalesAndDiv();
 ?>
 
 <!DOCTYPE html>
@@ -308,16 +309,23 @@
                     <div class="row">
                         <div class="col-sm-3 col-sm-offset-1">
                             <label>Recruited By</label>
-                            <input type="text" class="form-control" name="recruitedBy" pattern="[a-zA-Z][a-zA-Z ]{4,}" placeholder="Recruited by">
+                            <select name="recruitedBy" id="recruitedBy" class="form-control">
+                                <option value=""> Choose Recruiter </option> 
+                                <?php foreach($recruitedByUser as $rUserData) { ?>
+                                <option value="<?php echo $rUserData['dh_user_id']; ?>" >  <?php echo $rUserData['dh_firstName'].' '.$rUserData['dh_lastName']; ?> </option>
+                                <?php } ?>
+                            </select>
                         </div>
                         <div class="col-sm-2">
                             <label>Position</label>
-                            <input type="text" class="form-control" name="recruitedByPos" pattern="[a-zA-Z][a-zA-Z ]{4,}" placeholder="Position">
+                            <input type="text" readonly id="recuitedByPosition" class="form-control">
+                            <input type="hidden" name="recruitedByPos" id="recruitedByPos">
                         </div>
 
                         <div class="col-sm-2">
                             <label>Division</label>
-                            <input type="text" class="form-control" name="recruitedByDiv" pattern="[0-9]{1,3}" placeholder="Division">
+                            <input type="text" readonly id="recuitedByDivision" class="form-control">
+                            <input type="hidden" name="recruitedByDiv" id="recruitedByDiv">
                         </div>
                         <div class="col-sm-3">
                             <label>Name of Trainor/Facilitator</label>
@@ -422,6 +430,25 @@
                 scrollTop: 0
               }, 800);
               return false;
+            });
+          });
+
+          $('#recruitedBy').on('change',function(){
+            var _this = $(this).val();
+            $.ajax({
+                type: 'POST',
+                url: '../website/commonFunctions.php',
+                data: {
+                    'id': _this
+                },
+                dataType: 'json',
+                success: function(data){
+                    $('#recruitedByPos').val(data.dh_user_group_id);
+                    $('#recuitedByPosition').val(data.dh_user_group_name);
+
+                    $('#recruitedByDiv').val(data.dh_division_id);
+                    $('#recuitedByDivision').val(data.dh_division_name);
+                }
             });
           });
 

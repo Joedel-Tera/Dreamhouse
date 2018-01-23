@@ -63,7 +63,7 @@
 		}
 
 		/*
-		 * Get the next UserID
+		 * Get the next houseId
 		 */ 
 		public function getNextHouseId(){
 			try{
@@ -85,6 +85,74 @@
 			} catch (PDOException $e){
 				echo $e->getMessage();
 			}
+		}
+
+		public function getAllDivision(){
+			try{
+				$stmt = $this->conn->prepare("SELECT * FROM dh_divisions WHERE dh_division_status =0");
+				$stmt->execute();
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e){
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
+		public function getDownlinesPerDivision($divId, $userId){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_users as uM 
+						INNER JOIN dh_user_details as uMD 
+						ON uM.dh_user_details_id = uMD.dh_user_details_id 
+						INNER JOIN dh_user_groups as uG ON 
+						uM.dh_user_group_id = uG.dh_user_group_id
+						INNER JOIN dh_divisions as uDiv ON
+						uMD.dh_division_id = uDiv.dh_division_id
+						WHERE is_deleted = 0 AND dh_status = 'Active'
+						AND uMD.dh_division_id = ? AND dh_user_id != ?");
+				$stmt->execute(array($divId,$userId));
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}		
+		}
+
+		public function getMyClosingSales($userId){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_closing WHERE dh_prepared_user_id = ? ORDER BY dh_closing_id DESC");
+				$stmt->execute(array($userId));
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
+		public function getMySeminarRequest($userId){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_seminar_calendar WHERE dh_user_id = ? ORDER BY dh_seminar_id DESC");
+				$stmt->execute(array($userId));
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}			
+		}
+
+		public function getMyVehicleTripRequest($userId){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_vehicletrip_calendar WHERE dh_user_id = ? ORDER BY dh_vehicle_trip_id DESC");
+				$stmt->execute(array($userId));
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}			
 		}
 
 		/*
@@ -149,6 +217,21 @@
 		}
 
 		/*
+		 * Get All Active Sales Director and Division Manager
+		 *
+		 */
+		public function getAllSalesAndDiv(){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_users as uM INNER JOIN dh_user_details as uMD ON uM.dh_user_details_id = uMD.dh_user_details_id WHERE is_deleted = 0 AND dh_status = 'Active' AND dh_user_group_id = 3 OR dh_user_group_id = 2 ORDER BY uM.dh_user_id DESC");
+				$stmt->execute();
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+			}			
+		}
+
+		/*
 		 * Get All Active Division Manager
 		 *
 		 */
@@ -189,6 +272,7 @@
 						$_SESSION['user_session'] = $userRow['dh_user_id'];
 						$_SESSION['user_fullName'] = $userRow['dh_firstName'].' '.$userRow['dh_lastName'];
 						$_SESSION['user_type'] = $userRow['dh_user_group_id'];
+						$_SESSION['user_division'] = $userRow['dh_division_id'];
 						$_SESSION['MsgCode'] = 1;
 						if($userRow['dh_user_group_id'] != '1'){
 							$_SESSION['Message'] = 'Welcome! '.$userRow['dh_firstName'].' '.$userRow['dh_lastName'];
@@ -262,10 +346,11 @@
 				$stmt->execute($dataUsers);
 
 				// User Details
-				$detailsStmt = $this->conn->prepare("INSERT INTO dh_user_details (dh_user_details_id,dh_firstName,dh_middleName,dh_lastName,dh_user_spousename,dh_user_nickname,dh_bday,dh_age,dh_gender,dh_tin_number,dh_email_address,dh_contact_no,dh_home_address,dh_occupation,dh_seminar_date,dh_seminar_venue,dh_recruited_by,dh_recruited_by_position,dh_recruited_by_division,dh_trainor_name,dh_sales_director,dh_division_manager,dh_realty_name,dh_realty_pos,dh_realty_from,dh_realty_to) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				$detailsStmt = $this->conn->prepare("INSERT INTO dh_user_details (dh_user_details_id,dh_division_id, dh_firstName,dh_middleName,dh_lastName,dh_user_spousename,dh_user_nickname,dh_bday,dh_age,dh_gender,dh_tin_number,dh_email_address,dh_contact_no,dh_home_address,dh_occupation,dh_seminar_date,dh_seminar_venue,dh_recruited_by,dh_recruited_by_position,dh_recruited_by_division,dh_trainor_name,dh_sales_director,dh_division_manager,dh_realty_name,dh_realty_pos,dh_realty_from,dh_realty_to) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 					
 					$dataUserDetails = array(
 						$getNextUserId['AUTO_INCREMENT'],
+						$params['divisionId'],
 						$params['firstName'],
 						$params['middleName'],
 						$params['lastName'],

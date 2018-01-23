@@ -124,13 +124,7 @@ $getCurrentMenu = $currentMenu;
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li <?php if($getCurrentMenu == 1){ ?> class="active" <?php }; ?> ><a href="index.php">Home</a></li>
-            <li <?php if($getCurrentMenu == 42){ ?> class="active" <?php }; ?> ><a href="calendar.php">Calendar</a ></li>
-            <li <?php if($getCurrentMenu == 43){ ?> class="active" <?php }; ?> ><a href="agentClosing.php">Closing</a></li>
-            <li <?php if($getCurrentMenu == 44){ ?> class="active" <?php }; ?> ><a href="closingrecord.php">Closing Record</a></li>
-            
-          <!-- <li>
-              <a class="btn btn-default btn-outline "  data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3">Search</a>
-            </li> -->
+            <li <?php if($getCurrentMenu == 42){ ?> class="active" <?php }; ?> ><a href="salesView.php">View</a ></li>
           </ul>
           <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
             <form class="navbar-form navbar-right" role="search">

@@ -8,7 +8,8 @@
   $user = new User();
 
   $user->isPageAccessible($_SESSION['user_type'], $userGroup);
-
+  $mySeminarRequest = $user->getMySeminarRequest($_SESSION['user_session']);
+  $myVehicleTripRequest = $user->getMyVehicleTripRequest($_SESSION['user_session']);
 
 ?>
 
@@ -35,6 +36,7 @@
 		  <ul class="nav nav-tabs">
 			  <li class="active"><a data-toggle="tab" href="#seminar"> Request Seminar Schedule </a></li>
 			  <li><a data-toggle="tab" href="#vehicleTrip"> Request Vehicle Trip Schedule </a></li>
+			  <li><a data-toggle="tab" href="#listRequest"> View Submitted Requests </a></li>
 		  </ul>
 		</div>
 		<div class="tab-content">
@@ -171,6 +173,73 @@
 		  </div>
 		  <!-- End for Vehicle Trip Schedule -->
 
+		  <div id="listRequest" class="tab-pane fade" style="padding:25px;">
+		  	 <h2> View Submitted Requests </h2>
+		  	 <div class="row">
+		  	 	<div class="col-md-5">
+		  	 		<h3> Seminar </h3>
+		  	 		<table class="table table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th> Seminar Name </th>
+								<th> Date Submitted </th>
+								<th> Status </th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php if(count($mySeminarRequest) > 0) { ?> 
+								<?php foreach($mySeminarRequest as $semData) { ?>
+									<tr>
+										<td style="vertical-align: middle;" class="fullNameText"> <?php echo $semData['dh_seminar_name']; ?> </td>
+										<td style="vertical-align: middle;" > <?php echo $semData['dh_date_created']; ?> </td>
+										<td style="vertical-align: middle;"> <?php echo $semData['dh_seminar_status']; ?> </td>
+									</tr>
+								<?php } ?>
+							<?php } else { ?>
+								<tr> 
+									<td colspan="3" style="text-align: center; color:red;"> 
+										<h2> No Seminar Schedule Request </h2>
+									</td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>	
+		  	 	</div>
+		  	 	<div class="col-md-7">
+		  	 		<h3> Vehicle Trips </h3>
+		  	 		<table class="table table-condensed table-hover table-striped">
+						<thead>
+							<tr>
+								<th> Trip Date </th>
+								<th> Location </th>
+								<th> Destination </th>
+								<th> Date Submitted </th>
+								<th> Status </th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php if(count($myVehicleTripRequest) > 0) { ?> 
+								<?php foreach($myVehicleTripRequest as $tripData) { ?>
+									<tr>
+										<td style="vertical-align: middle;" class="fullNameText"> <?php echo $tripData['dh_trip_date']; ?> </td>
+										<td style="vertical-align: middle;" > <?php echo $tripData['dh_location_pickup']; ?> </td>
+										<td style="vertical-align: middle;"> <?php echo $tripData['dh_location_destination']; ?> </td>
+										<td style="vertical-align: middle;" > <?php echo $tripData['dh_date_created']; ?> </td>
+										<td style="vertical-align: middle;" > <?php echo $tripData['dh_trip_status']; ?> </td>
+									</tr>
+								<?php } ?>
+							<?php } else { ?>
+								<tr> 
+									<td colspan="5" style="text-align: center; color:red;"> 
+										<h2> No Vehicle Trip Schedule Request </h2>
+									</td>
+								</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+		  	 	</div>
+		  	 </div>
+		  </div>
 		</div>
 	  </div>
 	</div>

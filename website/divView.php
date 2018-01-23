@@ -46,7 +46,7 @@
 							<table class="table table-condensed table-hover table-striped">
 								<thead>
 									<tr>
-										<th> Action </th>
+										<th style="text-align: center;"> Action </th>
 										<th> Full Name </th>
 										<th> User Type </th>
 										<th> Email </th>
@@ -59,7 +59,9 @@
 									<?php if(count($myDownlines) > 0) { ?> 
 										<?php foreach($myDownlines as $userData) { ?>
 											<tr>
-												<td style="vertical-align: middle;"><button class="btn btn-sm btn-primary viewClosing"> View Closing Sales </button> </td>
+												<td style="vertical-align: middle;text-align: center;"><button class="btn btn-sm btn-primary viewClosing"> View Closing Sales </button> 
+													<button class="btn btn-sm btn-info viewProfile"> View Profile </button>
+												</td>
 												<input type="hidden" class="empId" value="<?php echo $userData['dh_user_id']; ?>">
 												<td style="vertical-align: middle;" class="fullNameText"> <?php echo $userData['dh_firstName'].' '.$userData['dh_lastName']; ?> </td>
 												<td style="vertical-align: middle;" > <?php echo $userData['dh_user_group_name']; ?> </td>
@@ -198,6 +200,55 @@
 		</div>
 	</div>
 
+	<!-- Modal -->
+	<div id="errorOccured" class="modal fade" role="dialog">
+		<div class="modal-dialog" style="top:15%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 style="display:inline;"> Warning Message </h3>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+							<h2 style="color:red;"> An error Occurred Please try again Later... </h2>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="showProfile" class="modal fade" role="dialog">
+		<div class="modal-dialog" style="top:15%;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 style="display:inline;"> User Information </h3>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+								<div class="col-md-12">
+									<label> Name: </label> <span id="spanfullName">  </span>
+									<label style="float:right;"> Date Account Created : <span id="spandateCreated"> </span> </label><br>
+									
+									<label> Spouse Name : </label> <span id="spanspouseName">  </span><br>
+									<label> Birthdate : </label> <span id="spanDOB">  </span> <br> 
+									<label> Age : </label> <span id="spanAge"> </span><br>
+									<label> Gender : </label> <span id="spangender">  </span><br>
+									<label> Tin No# : </label> <span id="spantinNo">  </span><br>
+									<label> Email Address : </label> <span id="spanemail">  </span> <br>
+								  <label> Contact No. : </label> <span id="spancontactNo">  </span> <br>
+									<label> Home Address : </label> <span id="spanaddress">  </span><br><br><br>
+
+									<label> User Type : </label> <span id="spangroupName">  </span><br>
+									<label> Division : </label> <span id="spandivisionName">  </span><br>
+								</div>
+						</div>			
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<?php include 'footerFiles.php'; ?>
 	<script src="js/jquery.js"></script>
 	<script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
@@ -222,7 +273,6 @@
 					var _this = $(this);
 					_this.on('click',function(){
 						var empId = _this.parent().parent().find('.empId').val();
-						console.log(empId);
 							$.ajax({
 	                type: 'POST',
 	                url: '../website/commonFunctions.php',
@@ -245,6 +295,40 @@
 	            });
 						
 					});
+				});
+
+				$('.viewProfile').each(function(){
+						var _this = $(this);
+						_this.on('click', function(){
+								var empId = _this.parent().parent().find('.empId').val();
+										$.ajax({
+												type: 'POST',
+												url: '../website/commonFunctions.php',
+												data: {
+													'getUserProfile' : empId
+												},
+												dataType: 'json',
+												success: function(data){
+														if(data){
+															$('#spanfullName').text(data.dh_firstName +' '+ data.dh_lastName);
+															$('#spandateCreated').text(data.dh_date_created);
+															$('#spanspouseName').text(data.dh_user_spousename);
+															$('#spanDOB').text(data.dh_bday);
+														  $('#spanAge').text(data.dh_age);
+															$('#spangender').text(data.dh_gender);
+														  $('#spantinNo').text(data.dh_tin_number);
+															$('#spanemail').text(data.dh_email_address);
+															$('#spancontactNo').text(data.dh_contact_no);
+															$('#spanaddress').text(data.dh_home_address);
+															$('#spangroupName').text(data.dh_user_group_name);
+															$('#spandivisionName').text(data.dh_division_name);
+															$('#showProfile').modal('show');
+														} else {
+															$('#errorOccured').modal('show');
+														}
+												}
+										});
+						});
 				});
 
 

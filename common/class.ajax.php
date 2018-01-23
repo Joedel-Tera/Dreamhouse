@@ -49,5 +49,24 @@
 			}
 		}
 
+		public function getUserInfoViaUserId($userId){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_users as uM 
+					INNER JOIN dh_user_details as uMD 
+					ON uM.dh_user_details_id = uMD.dh_user_details_id 
+					INNER JOIN dh_user_groups as uG ON 
+					uM.dh_user_group_id = uG.dh_user_group_id
+					INNER JOIN dh_divisions as uDiv ON
+					uMD.dh_division_id = uDiv.dh_division_id
+					WHERE dh_user_id = ?");
+				$stmt->execute(array($userId));
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				return json_encode($result);
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}			
+		}
+
 	}
 ?>

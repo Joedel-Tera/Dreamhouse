@@ -393,6 +393,13 @@ if(!empty($_POST)){
 		echo $result;
 	}
 
+	if(isset($_POST['getUserProfile'])){
+		$ajax = new ajaxFunction();
+		$result = $ajax->getUserInfoViaUserId($_POST['getUserProfile']);
+
+		echo $result;
+	}
+
 
 
 

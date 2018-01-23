@@ -373,7 +373,54 @@ if(!empty($_POST)){
 		}
 	}
 
+	if(isset($_POST['requestNewSeminarDir'])){
+		$user = new User();
 
+		$params = array(
+			'seminarName' => $_POST['seminarName'],
+			'seminarDate' => $_POST['seminarDate'],
+			'timeStart' => $_POST['seminarTimeStart'],
+			'timeEnd' => $_POST['seminarTimeEnd'],
+			'seminarLocation' => $_POST['seminarLocation'],
+			'userId' => $_POST['userId']
+		);
+
+		$result = $user->insertRequestSeminar($params);
+		if($result){
+			$user->redirect('dirRequestSched.php');
+			$_SESSION['MsgCode'] = 0;
+		} else {
+	    	$_SESSION['Message'] = "Something went wrong please try again.";
+	    	$_SESSION['MsgCode'] = 2;
+			$user->redirect('dirRequestSched.php');
+		}
+	}
+
+	if(isset($_POST['requestNewTripDir'])){
+		$user = new User();
+
+		$params = array(
+			'tripDate' => $_POST['tripDate'],
+			'locationPickUp' => $_POST['locationPickUp'],
+			'locationPickUpTime' => $_POST['locationPickUpTime'],
+			'locationDestination' => $_POST['locationDestination'],
+			'locationDestinationTime' => $_POST['locationDestinationTime'],
+			'driverName' => $_POST['driverName'],
+			'plateNo' => $_POST['plateNo'],
+			'contactNo' => $_POST['contactNo'],
+			'userId' => $_POST['userId']
+		);
+
+		$result = $user->insertRequestVehicleTrip($params);
+		if($result){
+			$user->redirect('dirRequestSched.php');
+			$_SESSION['MsgCode'] = 0;
+		} else {
+	    	$_SESSION['Message'] = "Something went wrong please try again.";
+	    	$_SESSION['MsgCode'] = 2;
+			$user->redirect('dirRequestSched.php');
+		}
+	}
 
 
 	/*

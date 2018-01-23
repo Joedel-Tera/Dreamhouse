@@ -71,18 +71,6 @@ $getCurrentMenu = $currentMenu;
             <li <?php if($getCurrentMenu == 8){ ?> class="active" <?php }; ?> ><a href="#">Contact Us</a></li>
             <li <?php if($getCurrentMenu == 9){ ?> class="active" <?php }; ?> ><a href="login.php">Login</a></li>
             
-          <!-- <li>
-              <a class="btn btn-default btn-outline "  data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3">Search</a>
-            </li> -->
-          </ul>
-            <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
-              <form class="navbar-form navbar-right" role="search">
-                <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Search" />
-                </div>
-                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-              </form>
-            </div><!--/.nav-collapse -->
           </div>
         </div>
     </nav>
@@ -126,14 +114,6 @@ $getCurrentMenu = $currentMenu;
             <li <?php if($getCurrentMenu == 1){ ?> class="active" <?php }; ?> ><a href="index.php">Home</a></li>
             <li <?php if($getCurrentMenu == 42){ ?> class="active" <?php }; ?> ><a href="salesView.php">View</a ></li>
           </ul>
-          <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
-            <form class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" />
-              </div>
-              <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </form>
-        </div><!--/.nav-collapse -->
         </div>
       </div>
     </nav>
@@ -157,18 +137,7 @@ $getCurrentMenu = $currentMenu;
             <li <?php if($getCurrentMenu == 1){ ?> class="active" <?php }; ?> ><a href="index.php">Home</a></li>
             <li <?php if($getCurrentMenu == 32){ ?> class="active" <?php }; ?> ><a href="dirView.php"> View </a></li>
             <li <?php if($getCurrentMenu == 33){ ?> class="active" <?php }; ?> ><a href="dirRequestSched.php"> Request Schedule </a></li>            
-          <li>
-              <a class="btn btn-default btn-outline "  data-toggle="collapse" href="#nav-collapse3" aria-expanded="false" aria-controls="nav-collapse3">Search</a>
-            </li>
           </ul>
-          <div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
-            <form class="navbar-form navbar-right" role="search">
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search" />
-              </div>
-              <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
-            </form>
-        </div><!--/.nav-collapse -->
         </div>
       </div>
     </nav>

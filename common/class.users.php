@@ -119,6 +119,26 @@
 			}		
 		}
 
+		public function getDownlinesPerDivisionSalesDirector($divId){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_users as uM 
+						INNER JOIN dh_user_details as uMD 
+						ON uM.dh_user_details_id = uMD.dh_user_details_id 
+						INNER JOIN dh_user_groups as uG ON 
+						uM.dh_user_group_id = uG.dh_user_group_id
+						INNER JOIN dh_divisions as uDiv ON
+						uMD.dh_division_id = uDiv.dh_division_id
+						WHERE is_deleted = 0 AND dh_status = 'Active'
+						AND uMD.dh_division_id = ? AND uM.dh_user_group_id != 3 AND uM.dh_user_group_id != 2");
+				$stmt->execute(array($divId));
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}			
+		}
+
 		public function getMyClosingSales($userId){
 			try {
 				$stmt = $this->conn->prepare("SELECT * FROM dh_closing WHERE dh_prepared_user_id = ? ORDER BY dh_closing_id DESC");

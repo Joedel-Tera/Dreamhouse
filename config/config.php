@@ -37,31 +37,6 @@ $SMS_EMAIL = 'Strafer14@yahoo.com';
 $SMS_PASSWORD = 'Tsumichan';
 $SMS_DEVICE_ID = 47936;
 
-
-// --- Mechanic Done Repair Message ----//
-$SMS_MESSAGE = 'Hello Mr/Mrs.';
-$SMS_MESSAGE_2 = '';
-$SMS_MESSAGE_3 = '';
-$SMS_MESSAGE_4 = '';
-
-// --- Reservation Message ----//
-$SMS_MESSAGE_RES2 = '';
-$SMS_MESSAGE_RES3 = '';
-$SMS_MESSAGE_RES4 = '';
-
-
-// --- Reservation Accepted Message ----//
-$SMS_MESSAGE_RES_ACPT2 = '';
-$SMS_MESSAGE_RES_ACPT3 = '';
-$SMS_MESSAGE_RES_ACPT4 = '';
-
-
-
-
-
-
-
-
 // @TODO: Set the default timezone as per your preference
 // default value = UTC
 $DEFAULT_TIMEZONE = "Asia/Manila";

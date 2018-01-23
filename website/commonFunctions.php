@@ -44,7 +44,8 @@ if(!empty($_POST)){
 			'educAttainment' => $_POST['educAttainment'],
 			'educYearFrom' => $_POST['educYearFrom'],
 			'educYearTo' => $_POST['educYearTo'],
-			'accountCreate' => 'Registration'
+			'accountCreate' => 'Registration',
+			'divisionId' => $_POST['recruitedByDiv']
 		);
 
 		$result = $user->insertUserData($params);

@@ -443,10 +443,11 @@
 				} else {
 					$_SESSION['Message'] = "Registered Successfully!";
 				}
-				
+
 				return true;
 			} catch (PDOException $e){
 				echo $e->getMessage();
+				throw $e;
 			}
 		}
 

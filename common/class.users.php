@@ -45,6 +45,7 @@
 				$this->conn->commit();
 			} catch (PDOException $e){
 				echo $e->getMessage();
+				throw $e;
 			}
 		}
 
@@ -59,6 +60,7 @@
 				return $result;
 			} catch (PDOException $e){
 				echo $e->getMessage();
+				throw $e;
 			}
 		}
 
@@ -73,6 +75,22 @@
 				return $result;
 			} catch (PDOException $e){
 				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
+		/*
+		 * Get The Next News Id
+		 */
+		public function getNextNewsId(){
+			try {
+				$stmt = $this->conn->prepare("SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'dh_news'");
+				$stmt->execute();
+				$result = $stmt->fetch(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
 			}
 		}
 
@@ -84,6 +102,7 @@
 				return $result;
 			} catch (PDOException $e){
 				echo $e->getMessage();
+				throw $e;
 			}
 		}
 
@@ -207,6 +226,7 @@
 				return $result;
 			} catch (PDOException $e) {
 				echo $e->getMessage();
+				throw $e;
 			}
 		}
 
@@ -222,6 +242,7 @@
 				return $result;
 			} catch (PDOException $e) {
 				echo $e->getMessage();
+				throw $e;
 			}
 		}
 
@@ -238,6 +259,7 @@
 				return $result;
 			} catch (PDOException $e) {
 				echo $e->getMessage();
+				throw $e;
 			}
 		}
 
@@ -253,6 +275,7 @@
 				return $result;
 			} catch (PDOException $e) {
 				echo $e->getMessage();
+				throw $e;
 			}			
 		}
 
@@ -268,6 +291,7 @@
 				return $result;
 			} catch (PDOException $e) {
 				echo $e->getMessage();
+				throw $e;
 			}			
 		}
 
@@ -283,6 +307,7 @@
 				return $result;
 			} catch (PDOException $e) {
 				echo $e->getMessage();
+				throw $e;
 			}			
 		}
 
@@ -349,6 +374,7 @@
 				}
 			} catch (PDOException $e){
 				echo $e->getMessage();
+				throw $e;
 			}
 		}
 
@@ -556,26 +582,71 @@
 			}
 		}
 
+		/* 
+		 * Insert News Data
+		 * @params - Data to be inserted (empEncode.php - News / Article)
+		 */
+		public function insertNews($params){
+			try {
+				$this->conn->beginTransaction();
+				$stmt = $this->conn->prepare("INSERT INTO dh_news
+				(dh_title,dh_content,dh_date_created,dh_encoded_by) 
+				VALUES (?,?,?,?)");
+
+					$newsData = array(
+						$params['title'],
+						$params['content'],
+						date("m-d-Y"),
+						$params['userId']
+					);
+
+				$stmt->execute($newsData);
+				$this->conn->commit();
+				$_SESSION['Message'] = "News Article Successfully Added! ";
+				return true;
+			} catch (PDOException $e){
+				echo $e->getMessage();
+				throw $e;
+			}			
+		}
+
 		/*
 		 * Insert Media Images
 		 * @params Images
 		 */
-		public function insertImages($params){
+		public function insertImages($params,$imagetype = null){
 			try {
 				$this->conn->beginTransaction();
 				$stmt = $this->conn->prepare("INSERT INTO dh_images
-				(dh_house_project_id,isHouseSample,isFloorPlan,isAmenities,dh_image_path) 
-				VALUES (?,?,?,?,?)");
+				(dh_house_project_id,dh_news_id,isHouseSample,isFloorPlan,isAmenities,isNews,dh_image_path) 
+				VALUES (?,?,?,?,?,?,?)");
 
 				$houseId = $this->getNextHouseId();
+				$newsId = $this->getNextNewsId();
 
-				$imageData = array(
-					$houseId['AUTO_INCREMENT'],
-					$params['isHouseSample'],
-					$params['isFloorPlan'],
-					$params['isAmenities'],
-					$params['imagePath']
-				);
+
+				if($imagetype != null){
+					$imageData = array(
+						null,
+						$newsId['AUTO_INCREMENT'],
+						0,
+						0,
+						0,
+						$params['isNews'],
+						$params['imagePath']
+					);
+				} else {
+					$imageData = array(
+						$houseId['AUTO_INCREMENT'],
+						null,
+						$params['isHouseSample'],
+						$params['isFloorPlan'],
+						$params['isAmenities'],
+						0,
+						$params['imagePath'],
+					);
+				}
+				
 
 				$stmt->execute($imageData);
 				$this->conn->commit();

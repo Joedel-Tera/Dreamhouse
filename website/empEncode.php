@@ -42,7 +42,6 @@
           <ul class="nav nav-tabs">
               <li class="active"><a data-toggle="tab" href="#divisionManager"> Add New Division Manager </a></li>
               <li><a data-toggle="tab" href="#salesDirector"> Add New Sales Director </a></li>
-              
               <li><a data-toggle="tab" href="#houseProjects"> House Projects </a></li>
               <li><a data-toggle="tab" href="#news"> News / Article </a></li>
               <li><a data-toggle="tab" href="#closingForm"> Closing Form </a></li>
@@ -797,6 +796,43 @@
         <div id="news" class="tab-pane fade" style="padding:25px;">
             <h2> News Articles </h2>
             <hr>
+            <form method="post" role="form" action="commonFunctions.php" enctype="multipart/form-data">
+               <div class="form-group">
+                  <div class="row">
+                     <div class="col-sm-3 col-sm-offset-1">
+                        <label>Title</label>
+                        <input type="text" class="form-control" name="title" placeholder="Enter News Title">
+                     </div>
+                     <div class="col-sm-7">
+                        <label>Content</label>
+                        <input type="text" class="form-control" name="content" placeholder="Enter News Content">
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <div class="row">
+                     <label class="col-sm-3 col-sm-offset-1 control-label"> Add News Images </label>
+                     <div class="col-sm-8">
+                        <input type="file" id="newsImgFile" name="newsImgFile[]" multiple="multiple" accept="image/*" required/>
+                    </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <div class="row">
+                     <div class="col-sm-5 col-sm-offset-1">
+                        <label> Posted By / Encoded By </label>
+                        <input type="text" disabled class="form-control" value="<?php echo $_SESSION['user_fullName']; ?>">
+                        <input type="hidden" name="userId" value="<?php echo $_SESSION['user_session']; ?>">
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group clearfix">
+                  <br>
+                  <div class="col-sm-4 col-sm-offset-4">
+                     <button type="submit" name="addNews" class="btn btn-primary btn-lg" style="width:100%"> Submit News </button>
+                  </div>
+               </div>
+            </form>
         </div>
           <!-- End for News Articles -->
 

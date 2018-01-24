@@ -322,6 +322,51 @@ if(!empty($_POST)){
 	    	$_SESSION['MsgCode'] = 2;
 			$user->redirect('empEncode.php');
 		}
+	}
+
+	if(isset($_POST['addNews'])){
+		$user = new User();
+		$params = array(
+			'title' => $_POST['title'],
+			'content' => $_POST['content'],
+            'userId' => $_POST['userId']
+        );
+
+		if (count($_FILES['newsImgFile']['tmp_name']) > 0) {
+			for ($x = 0; $x < count($_FILES['newsImgFile']['tmp_name']); $x++) {
+				$file_name = $_FILES['newsImgFile']['name'][$x];
+				$file_size = $_FILES['newsImgFile']['size'][$x];
+				$file_tmp  = $_FILES['newsImgFile']['tmp_name'][$x];
+
+			    $t = explode(".", $file_name);
+			    $t1 = end($t);
+			    $file_ext = strtolower(end($t));
+
+			    $allowExt = array("jpg", "jpeg", "png", "gif", "bmp");
+			    if(in_array($file_ext,$allowExt)) {
+			    	$fileTmp = $file_tmp;
+			    	$file_path = "uploads/" . $file_name;
+			    	move_uploaded_file($fileTmp, $file_path);
+
+			    	$imageParamNews = array(
+			    		'imagePath' => $file_path,
+			    		'isNews' => 1
+			    	);
+
+			    	$user->insertImages($imageParamNews, 'News');
+			    }
+			}
+		}
+
+		$result = $user->insertNews($params);
+		if($result){
+			$user->redirect('empEncode.php');
+			$_SESSION['MsgCode'] = 0;
+		} else {
+	    	$_SESSION['Message'] = "Something went wrong please try again.";
+	    	$_SESSION['MsgCode'] = 2;
+			$user->redirect('empEncode.php');
+		}
 
 	}
 

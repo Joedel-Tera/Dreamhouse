@@ -108,5 +108,29 @@
 			}		
 		}
 
+		public function getAllSeminar(){
+			try {
+				$stmt = $this->conn->prepare("SELECT dh_seminar_name,dh_seminar_date FROM dh_seminar_calendar WHERE dh_seminar_status = 'Approve' ");
+				$stmt->execute();
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
+		public function getAllVehicleTrips(){
+			try {
+				$stmt = $this->conn->prepare("SELECT dh_trip_date,dh_location_pickup,dh_location_destination FROM dh_vehicletrip_calendar WHERE dh_trip_status = 'Approve' ");
+				$stmt->execute();
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}			
+		}
+
 	}
 ?>

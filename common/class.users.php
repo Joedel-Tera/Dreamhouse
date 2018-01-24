@@ -94,6 +94,9 @@
 			}
 		}
 
+		/*
+		 * Get All Developers
+		 */
 		public function getDevelopers(){
 			try{
 				$stmt = $this->conn->prepare("SELECT * FROM dh_developers");
@@ -106,6 +109,9 @@
 			}
 		}
 
+		/*
+		 * Get All Division
+		 */
 		public function getAllDivision(){
 			try{
 				$stmt = $this->conn->prepare("SELECT * FROM dh_divisions WHERE dh_division_status =0");
@@ -214,6 +220,30 @@
 			}			
 		}
 
+		public function getAllSeminarRequest($status){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_seminar_calendar INNER JOIN dh_user_details ON dh_user_id = dh_user_details_id WHERE dh_seminar_status = ? ORDER BY dh_seminar_id DESC");
+				$stmt->execute(array($status));
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
+		public function getAllVehicleTripRequest($status){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_vehicletrip_calendar INNER JOIN dh_user_details ON dh_user_id = dh_user_details_id WHERE dh_trip_status = ? ORDER BY dh_vehicle_trip_id DESC");
+				$stmt->execute(array($status));
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
 		/*
 		 * Get All Registered Users
 		 * @param Status (For Activation , Active , Null)
@@ -245,7 +275,6 @@
 				throw $e;
 			}
 		}
-
 
 		/*
 		 * Get All Active Users Except Employee and Admin
@@ -551,6 +580,52 @@
 			}
 		}
 
+		/*
+		 * Update Status
+		 * @param array - SeminarId and Status to be change
+		 */
+		public function updateSeminarStatus($params){
+			try{
+				$this->conn->beginTransaction();
+				$stmt = $this->conn->prepare("UPDATE dh_seminar_calendar set dh_seminar_status=? WHERE dh_seminar_id = ?");
+				$updateData = array(
+					$params['status'],
+					$params['seminarId']
+				);
+				$stmt->execute($updateData);
+
+				$this->conn->commit();
+				$_SESSION['Message'] = "Status Changed!";
+				return true;
+			} catch (PDOException $e){
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
+		/*
+		 * Update Status
+		 * @param array - EmpId and Status to be change
+		 */
+		public function updateVehicleTripStatus($params){
+			try{
+				$this->conn->beginTransaction();
+				$stmt = $this->conn->prepare("UPDATE dh_vehicletrip_calendar set dh_trip_status=? WHERE dh_vehicle_trip_id = ?");
+				$updateData = array(
+					$params['status'],
+					$params['tripId']
+				);
+				$stmt->execute($updateData);
+
+				$this->conn->commit();
+				$_SESSION['Message'] = "Status Changed!";
+				return true;
+			} catch (PDOException $e){
+				echo $e->getMessage();
+				throw $e;
+			}
+		}		
+
 
 		/*
 		 * Insert House Project Data
@@ -718,5 +793,6 @@
 				echo $e->getMessage();
 			}
 		}
+
 
 	}

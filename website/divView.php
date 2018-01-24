@@ -137,10 +137,19 @@
 					<!-- End for Vehicle Trip Schedule -->
 
 					<!-- Start For Vehicle Trip Schedule -->
-					<div id="myCalendar" class="tab-pane fade" style="padding:25px;">
-						<h2> My Calendar </h2>
-							<hr>
-								
+					<div id="myCalendar" class="tab-pane fade" style="padding:20px;text-align: center;">
+						<div class="row">
+							<div class="col-md-6">
+								<h2> Seminar Calendar </h2>
+								<hr>
+								<div id="seminarCalendar"> </div>
+							</div>
+							<div class="col-md-6">
+								<h2> Vehicle Trips Calendar </h2>
+								<hr>
+								<div id="vehicleCalendar"> </div>
+							</div>
+						</div>		
 					</div>
 					<!-- End for Vehicle Trip Schedule -->
 
@@ -287,6 +296,31 @@ $(document).ready(function(){
 	viewProfile();
 	getDownlines();
 
+	$('#seminarCalendar').fullCalendar({
+      header: {
+        left: 'prev,next ',
+        center: 'title',
+        right: 'month,agendaWeek,listWeek'
+      },
+      height: 470,
+      navLinks: true,
+      events: {
+        url: 'getSeminarEvents.php'
+      }
+    });
+
+    $('#vehicleCalendar').fullCalendar({
+      header: {
+        left: 'prev,next ',
+        center: 'title',
+        right: 'month,agendaWeek,listWeek'
+      },
+      height: 470,
+      navLinks: true,
+      events: {
+        url: 'getVehicleEvents.php'
+      }
+    });
 
 	// hide #back-top first
 	$("#back-top").hide();
@@ -434,9 +468,12 @@ function viewProfile(){
 <script type="text/javascript">
 	$('#errMsg').fadeOut(5000); 
 </script>
-<!-- Bootstrap Core JavaScript -->
+<script src='js/moment.min.js'></script>
+<script src='js/jquery.min.js'></script>
+
 <script src="js/jquery-1.11.3.min.js" type="text/javascript"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src='js/fullcalendar.min.js'></script>
 </body>
 
 </html>

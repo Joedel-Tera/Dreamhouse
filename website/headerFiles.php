@@ -8,6 +8,8 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/fullcalendar.min.css" rel="stylesheet">
+    <link href='css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">

@@ -367,7 +367,6 @@ if(!empty($_POST)){
 	    	$_SESSION['MsgCode'] = 2;
 			$user->redirect('empEncode.php');
 		}
-
 	}
 
 	if(isset($_POST['requestNewSeminar'])){
@@ -466,6 +465,42 @@ if(!empty($_POST)){
 	    	$_SESSION['MsgCode'] = 2;
 			$user->redirect('dirRequestSched.php');
 		}
+	}
+
+	if(isset($_POST['approvalSeminar'])){
+		$user = new User();
+
+		$params = array(
+			'seminarId' => $_POST['seminarId'],
+			'status' => $_POST['semstatus']
+		);
+
+		$result = $user->updateSeminarStatus($params);
+		if($result){
+			$user->redirect('empApproval.php');
+		} else {
+			$_SESSION['Message'] = "Something went wrong please try again.";
+			$_SESSION['MsgCode'] = 2;
+			$user->redirect('empApproval.php');
+		}		
+	}
+
+	if(isset($_POST['approvalTrip'])){
+		$user = new User();
+
+		$params = array(
+			'tripId' => $_POST['tripId'],
+			'status' => $_POST['tripstatus']
+		);
+
+		$result = $user->updateVehicleTripStatus($params);
+		if($result){
+			$user->redirect('empApproval.php');
+		} else {
+			$_SESSION['Message'] = "Something went wrong please try again.";
+			$_SESSION['MsgCode'] = 2;
+			$user->redirect('empApproval.php');
+		}		
 	}
 
 

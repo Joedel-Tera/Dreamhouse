@@ -6,7 +6,7 @@
 $DB['db_server'] = '127.0.0.1';
 $DB['db_port'] = ':3306';
 $DB['db_username'] = 'root';
-$DB['db_password'] = 'Esco2017';
+$DB['db_password'] = '';
 $DB['db_name'] = 'dh_database';
 $DB['db_type'] = 'mysqli';
 

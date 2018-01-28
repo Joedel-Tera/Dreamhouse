@@ -49,6 +49,19 @@
 			}
 		}
 
+		public function updateLoginCounterAdmin($userId, $count){
+			try {
+				$this->conn->beginTransaction();
+				$stmt = $this->conn->prepare("UPDATE dh_users SET login_counter = ? WHERE dh_user_id = ?");
+				$stmt->execute(array($count,$userId));
+				$this->conn->commit();
+				return true;
+			} catch (PDOException $e){
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
 		/*
 		 * Get the next UserID
 		 */ 
@@ -277,6 +290,38 @@
 		}
 
 		/*
+		 * Get All Active Sales Agent For Activation
+		 * @param userId
+		 */
+		public function getAllUserForActivation($status){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_users as uM INNER JOIN dh_user_details as uMD ON uM.dh_user_details_id = uMD.dh_user_details_id INNER JOIN dh_user_groups as uG ON uM.dh_user_group_id = uG.dh_user_group_id WHERE is_deleted = 0 AND dh_status = ? AND uM.dh_user_group_id != 5 AND um.dh_user_group_id != 1");
+				$stmt->execute(array($status));
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
+		/*
+		 * Get All Active Sales Agent For Activation
+		 * @param userId
+		 */
+		public function accountsLocked(){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_users as uM INNER JOIN dh_user_details as uMD ON uM.dh_user_details_id = uMD.dh_user_details_id INNER JOIN dh_user_groups as uG ON uM.dh_user_group_id = uG.dh_user_group_id WHERE is_deleted = 0 AND login_counter = 4");
+				$stmt->execute();
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
+		/*
 		 * Get All Active Users Except Employee and Admin
 		 * 
 		 */
@@ -413,7 +458,7 @@
 		 * @param array $params - data to be inserted (register.php)
 		 * 
 		 */
-		public function insertUserData($params){
+		public function insertUserData($params, $isAdmin = false){
 			try {
 				$this->conn->beginTransaction();
 
@@ -427,6 +472,11 @@
 				} else {
 					$password = base64_encode($params['password']);
 				}
+					if($isAdmin){
+						$userStatus = 'Active';
+					} else {
+						$userStatus = 'For Activation';
+					}
 
 					$dataUsers = array(
 						$params['userType'],
@@ -434,7 +484,7 @@
 						$params['username'],
 						$password,
 						date("m-d-Y"),
-						'For Activation',
+						$userStatus,
 						$params['accountCreate']
 					);
 
@@ -735,26 +785,45 @@
 		 * Insert Request Seminar Data
 		 * @params - Data to be inserted (divRequestSched.php - Seminar)
 		 */
-		public function insertRequestSeminar($params){
+		public function insertRequestSeminar($params, $isAdmin = false){
 			try {
 				$this->conn->beginTransaction();
-				$stmt = $this->conn->prepare("INSERT INTO dh_seminar_calendar
-				(dh_seminar_name, dh_seminar_date, dh_seminar_time_start, dh_seminar_time_end, dh_seminar_location, dh_date_created, dh_user_id) 
-				VALUES (?,?,?,?,?,?,?)");
+				if($isAdmin) {
+					$stmt = $this->conn->prepare("INSERT INTO dh_seminar_calendar
+					(dh_seminar_name, dh_seminar_date, dh_seminar_time_start, dh_seminar_time_end, dh_seminar_location, dh_date_created, dh_user_id, dh_seminar_status) 
+					VALUES (?,?,?,?,?,?,?,?)");
 
-				$seminarData = array(
-					$params['seminarName'],
-					$params['seminarDate'],
-					$params['timeStart'],
-					$params['timeEnd'],
-					$params['seminarLocation'],
-					date("m-d-Y"),
-					$params['userId']
-				);
+					$seminarData = array(
+						$params['seminarName'],
+						$params['seminarDate'],
+						$params['timeStart'],
+						$params['timeEnd'],
+						$params['seminarLocation'],
+						date("m-d-Y"),
+						$params['userId'],
+						'Approve'
+					);
+					$_SESSION['Message'] = "Seminar Successfully Encoded! ";
+				} else {
+					$stmt = $this->conn->prepare("INSERT INTO dh_seminar_calendar
+					(dh_seminar_name, dh_seminar_date, dh_seminar_time_start, dh_seminar_time_end, dh_seminar_location, dh_date_created, dh_user_id) 
+					VALUES (?,?,?,?,?,?,?)");
+
+					$seminarData = array(
+						$params['seminarName'],
+						$params['seminarDate'],
+						$params['timeStart'],
+						$params['timeEnd'],
+						$params['seminarLocation'],
+						date("m-d-Y"),
+						$params['userId']
+					);
+					$_SESSION['Message'] = "Request Successfully Submitted for Approval! ";
+				}
 
 				$stmt->execute($seminarData);
 				$this->conn->commit();
-				$_SESSION['Message'] = "Request Successfully Submitted for Approval! ";
+				
 				return true;
 			} catch (PDOException $e){
 				echo $e->getMessage();
@@ -765,29 +834,52 @@
 		 * Insert Request Scheduled Trip Data
 		 * @params - Data to be inserted (divRequestSched.php - Vehicle Trip)
 		 */
-		public function insertRequestVehicleTrip($params){
+		public function insertRequestVehicleTrip($params, $isAdmin = false){
 			try {
-				$this->conn->beginTransaction();
-				$stmt = $this->conn->prepare("INSERT INTO dh_vehicletrip_calendar
-				(dh_trip_date, dh_location_pickup, dh_location_pickup_time, dh_location_destination, dh_location_destination_time, dh_driver_name, dh_plateno, dh_driver_contact,dh_user_id, dh_date_created) 
-				VALUES (?,?,?,?,?,?,?,?,?,?)");
+				if($isAdmin){
+					$this->conn->beginTransaction();
+					$stmt = $this->conn->prepare("INSERT INTO dh_vehicletrip_calendar
+					(dh_trip_date, dh_location_pickup, dh_location_pickup_time, dh_location_destination, dh_location_destination_time, dh_driver_name, dh_plateno, dh_driver_contact,dh_user_id, dh_date_created, dh_trip_status) 
+					VALUES (?,?,?,?,?,?,?,?,?,?, ?)");
 
-				$tripData = array(
-					$params['tripDate'],
-					$params['locationPickUp'],
-					$params['locationPickUpTime'],
-					$params['locationDestination'],
-					$params['locationDestinationTime'],
-					$params['driverName'],
-					$params['plateNo'],
-					$params['contactNo'],
-					$params['userId'],
-					date("m-d-Y")
-				);
+					$tripData = array(
+						$params['tripDate'],
+						$params['locationPickUp'],
+						$params['locationPickUpTime'],
+						$params['locationDestination'],
+						$params['locationDestinationTime'],
+						$params['driverName'],
+						$params['plateNo'],
+						$params['contactNo'],
+						$params['userId'],
+						date("m-d-Y"),
+						'Approve'
+					);
+					$_SESSION['Message'] = "Trip Successfully Encoded! ";
+				} else {
+					$this->conn->beginTransaction();
+					$stmt = $this->conn->prepare("INSERT INTO dh_vehicletrip_calendar
+					(dh_trip_date, dh_location_pickup, dh_location_pickup_time, dh_location_destination, dh_location_destination_time, dh_driver_name, dh_plateno, dh_driver_contact,dh_user_id, dh_date_created) 
+					VALUES (?,?,?,?,?,?,?,?,?,?)");
+
+					$tripData = array(
+						$params['tripDate'],
+						$params['locationPickUp'],
+						$params['locationPickUpTime'],
+						$params['locationDestination'],
+						$params['locationDestinationTime'],
+						$params['driverName'],
+						$params['plateNo'],
+						$params['contactNo'],
+						$params['userId'],
+						date("m-d-Y")
+					);
+					$_SESSION['Message'] = "Request Successfully Submitted for Approval! ";
+				}
 
 				$stmt->execute($tripData);
 				$this->conn->commit();
-				$_SESSION['Message'] = "Request Successfully Submitted for Approval! ";
+				
 				return true;
 			} catch (PDOException $e){
 				echo $e->getMessage();

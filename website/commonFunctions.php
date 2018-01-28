@@ -54,7 +54,6 @@ if(!empty($_POST)){
 		} else {
 			$user->redirect('register.php');
 		}
-
 	} else if (isset($_POST['newSalesDirector'])) {
 		$user = new User();
 
@@ -149,6 +148,100 @@ if(!empty($_POST)){
 		} else {
 			$user->redirect('empEncode.php');
 		}
+	} else if (isset($_POST['newSalesDirectorAdmin'])) {
+		$user = new User();
+
+		$params = array(
+			'userType' => 3,
+			'username' => $_POST['username'],
+			'password' => $_POST['password'],
+			'firstName' => $_POST['firstName'],
+			'middleName' => $_POST['middleName'],
+			'lastName' => $_POST['lastName'],
+			'spouseName' => $_POST['spouseName'],
+			'nickName' => $_POST['nickName'],
+			'DOB' => $_POST['DOB'],
+			'Age' => $_POST['Age'],
+			'gender' => $_POST['gender'],
+			'tinNumber' => $_POST['tinNumber'],
+			'emailAddress' => $_POST['emailAddress'],
+			'contactNo' => $_POST['contactNo'],
+			'homeAddress' => $_POST['homeAddress'],
+			'occupation' => $_POST['occupation'],
+			'seminarDate' => $_POST['seminarDate'],
+			'seminarVenue' => $_POST['seminarVenue'],
+			'recruitedBy' => $_POST['recruitedBy'],
+			'recruitedByPos' => $_POST['recruitedByPos'],
+			'recruitedByDiv' => $_POST['recruitedByDiv'],
+			'trainorName' => $_POST['trainorName'],
+			'salesDirector' => null,
+			'divManager' => $_POST['divManager'],
+			'occ_name' => $_POST['occ_name'],
+			'occ_pos' => $_POST['occ_pos'],
+			'occ_from' => $_POST['occ_from'],
+			'occ_to' => $_POST['occ_to'],
+			'educSchool' => $_POST['educSchool'],
+			'educLocation' => $_POST['educLocation'],
+			'educAttainment' => $_POST['educAttainment'],
+			'educYearFrom' => $_POST['educYearFrom'],
+			'educYearTo' => $_POST['educYearTo'],
+			'accountCreate' => 'Admin Encode',
+			'divisionId' => $_POST['recruitedByDiv']
+		);
+
+		$result = $user->insertUserData($params, true);
+		if($result){
+			$user->redirect('adminEncode.php');
+		} else {
+			$user->redirect('adminEncode.php');
+		}
+	} else if (isset($_POST['newDivisionManagerAdmin'])) {
+		$user = new User();
+
+		$params = array(
+			'userType' => 2,
+			'username' => $_POST['username'],
+			'password' => $_POST['password'],
+			'firstName' => $_POST['firstName'],
+			'middleName' => $_POST['middleName'],
+			'lastName' => $_POST['lastName'],
+			'spouseName' => $_POST['spouseName'],
+			'nickName' => $_POST['nickName'],
+			'DOB' => $_POST['DOB'],
+			'Age' => $_POST['Age'],
+			'gender' => $_POST['gender'],
+			'tinNumber' => $_POST['tinNumber'],
+			'emailAddress' => $_POST['emailAddress'],
+			'contactNo' => $_POST['contactNo'],
+			'homeAddress' => $_POST['homeAddress'],
+			'occupation' => $_POST['occupation'],
+			'seminarDate' => $_POST['seminarDate'],
+			'seminarVenue' => $_POST['seminarVenue'],
+			'recruitedBy' => null,
+			'recruitedByPos' => null,
+			'recruitedByDiv' => null,
+			'trainorName' => $_POST['trainorName'],
+			'salesDirector' => null,
+			'divManager' => null,
+			'occ_name' => $_POST['occ_name'],
+			'occ_pos' => $_POST['occ_pos'],
+			'occ_from' => $_POST['occ_from'],
+			'occ_to' => $_POST['occ_to'],
+			'educSchool' => $_POST['educSchool'],
+			'educLocation' => $_POST['educLocation'],
+			'educAttainment' => $_POST['educAttainment'],
+			'educYearFrom' => $_POST['educYearFrom'],
+			'educYearTo' => $_POST['educYearTo'],
+			'accountCreate' => 'Admin Encode',
+			'divisionId' => $_POST['divisionId']
+		);
+
+		$result = $user->insertUserData($params,true);
+		if($result){
+			$user->redirect('adminEncode.php');
+		} else {
+			$user->redirect('adminEncode.php');
+		}
 	}
 
 	if(isset($_POST['login'])){
@@ -197,6 +290,42 @@ if(!empty($_POST)){
 	    	$_SESSION['MsgCode'] = 2;
 	    	$user->redirect('empEncode.php');
 	    }
+	} else if (isset($_POST['closingAdmin'])){
+		$user = new User();
+
+		$params = array(
+			'familyName' => $_POST['familyname'],
+			'firstName' => $_POST['firstname'],
+			'phoneNo' => $_POST['phoneno'],
+	        'telno' => $_POST['telno'],
+	        'subdivision' => $_POST['subdivision'],
+	        'location' => $_POST['location'],
+	        'developer' => $_POST['developer'],
+	        'phase' => $_POST['phase'],
+	        'block' => $_POST['block'],
+	        'lot' => $_POST['lot'],
+	        'housemodel' => $_POST['housemodel'],
+	        'floorarea' => $_POST['floorarea'],
+	        'lotarea' => $_POST['lotarea'],
+	        'reservationfee' => $_POST['reservationfee'],
+	        'oipr' => $_POST['oipr'],
+	        'division' => $_POST['division'],
+	        'divisionmanager' => $_POST['divisionmanager'],
+	        'salesdirector' => $_POST['salesdirector'],
+	        'preparedBy' => $_POST['preparedBy'],
+	        'closingdate' => $_POST['closingDate'],
+	        'dateCreated' => date('m-d-Y'),
+	        'user' => $_POST['userId']
+	    );
+
+	    $result = $user->insertClosingData($params);
+	    if($result){
+	    	$user->redirect('adminEncode.php');
+	    } else {
+	    	$_SESSION['Message'] = "Something went wrong please try again.";
+	    	$_SESSION['MsgCode'] = 2;
+	    	$user->redirect('adminEncode.php');
+	    }
 	}
 
 	if(isset($_POST['approvalAccount'])){
@@ -214,6 +343,24 @@ if(!empty($_POST)){
 			$_SESSION['Message'] = "Something went wrong please try again.";
 			$_SESSION['MsgCode'] = 2;
 			$user->redirect('empApproval.php');
+		}
+	}
+
+	if(isset($_POST['approvalAccountAdmin'])){
+		$user = new User();
+
+		$params = array(
+			'userId' => $_POST['salesId'],
+			'status' => $_POST['status']
+		);
+
+		$result = $user->updateStatus($params);
+		if($result){
+			$user->redirect('adminApproval.php');
+		} else {
+			$_SESSION['Message'] = "Something went wrong please try again.";
+			$_SESSION['MsgCode'] = 2;
+			$user->redirect('adminApproval.php');
 		}
 	}
 
@@ -322,6 +469,111 @@ if(!empty($_POST)){
 	    	$_SESSION['MsgCode'] = 2;
 			$user->redirect('empEncode.php');
 		}
+	} else if (isset($_POST['addNewHouseAdmin'])){
+		$user = new User();
+
+		$params = array(
+			'houseName' => $_POST['houseName'],
+			'description' => $_POST['description'],
+			'location' => $_POST['location'],
+			'promos' => $_POST['promos'],
+			'userId' => $_POST['userId']
+		);
+
+		if (count($_FILES['houseImageFile']['tmp_name']) > 0) {
+			for ($x = 0; $x < count($_FILES['houseImageFile']['tmp_name']); $x++) {
+				$file_name = $_FILES['houseImageFile']['name'][$x];
+				$file_size = $_FILES['houseImageFile']['size'][$x];
+				$file_tmp  = $_FILES['houseImageFile']['tmp_name'][$x];
+
+			    $t = explode(".", $file_name);
+			    $t1 = end($t);
+			    $file_ext = strtolower(end($t));
+
+			    $allowExt = array("jpg", "jpeg", "png", "gif", "bmp");
+			    if(in_array($file_ext,$allowExt)) {
+			    	$fileTmp = $file_tmp;
+			    	$file_path = "uploads/" . $file_name;
+			    	move_uploaded_file($fileTmp, $file_path);
+
+			    	$imageParamHouse = array(
+			    		'imagePath' => $file_path,
+			    		'isHouseSample' => 1,
+			    		'isFloorPlan' => 0,
+			    		'isAmenities' => 0
+			    	);
+
+			    	$user->insertImages($imageParamHouse);
+			    }
+			}
+		}
+
+		if (count($_FILES['floorPlanImgFile']['tmp_name']) > 0) {
+			for ($x = 0; $x < count($_FILES['floorPlanImgFile']['tmp_name']); $x++) {
+				$file_name = $_FILES['floorPlanImgFile']['name'][$x];
+				$file_size = $_FILES['floorPlanImgFile']['size'][$x];
+				$file_tmp  = $_FILES['floorPlanImgFile']['tmp_name'][$x];
+
+			    $t = explode(".", $file_name);
+			    $t1 = end($t);
+			    $file_ext = strtolower(end($t));
+
+			    $allowExt = array("jpg", "jpeg", "png", "gif", "bmp");
+			    if(in_array($file_ext,$allowExt)) {
+			    	$fileTmp = $file_tmp;
+			    	$file_path = "uploads/" . $file_name;
+			    	move_uploaded_file($fileTmp, $file_path);
+
+			    	$imageParamFloor = array(
+			    		'imagePath' => $file_path,
+			    		'isHouseSample' => 0,
+			    		'isFloorPlan' => 1,
+			    		'isAmenities' => 0
+			    	);
+
+			    	$user->insertImages($imageParamFloor);
+			    }
+			}
+		}
+
+		if (count($_FILES['amenitiesFile']['tmp_name']) != 0) {
+			for ($x = 0; $x < count($_FILES['amenitiesFile']['tmp_name']); $x++) {
+				$file_name = $_FILES['amenitiesFile']['name'][$x];
+				$file_size = $_FILES['amenitiesFile']['size'][$x];
+				$file_tmp  = $_FILES['amenitiesFile']['tmp_name'][$x];
+
+			    $t = explode(".", $file_name);
+			    $t1 = end($t);
+			    $file_ext = strtolower(end($t));
+
+			    $allowExt = array("jpg", "jpeg", "png", "gif", "bmp");
+			    if(in_array($file_ext,$allowExt)) {
+			    	$fileTmp = $file_tmp;
+			    	$file_path = "uploads/" . $file_name;
+			    	move_uploaded_file($fileTmp, $file_path);
+
+			    	$imageParamAmenities = array(
+			    		'imagePath' => $file_path,
+			    		'isHouseSample' => 0,
+			    		'isFloorPlan' => 0,
+			    		'isAmenities' => 1
+			    	);
+
+			    	$user->insertImages($imageParamAmenities);
+			    }
+			}
+		}
+
+
+		$result = $user->insertHouseProject($params);
+		if($result){
+			$user->redirect('adminEncode.php');
+			$_SESSION['MsgCode'] = 0;
+		} else {
+	    	$_SESSION['Message'] = "Something went wrong please try again.";
+	    	$_SESSION['MsgCode'] = 2;
+			$user->redirect('adminEncode.php');
+		}
 	}
 
 	if(isset($_POST['addNews'])){
@@ -366,6 +618,49 @@ if(!empty($_POST)){
 	    	$_SESSION['Message'] = "Something went wrong please try again.";
 	    	$_SESSION['MsgCode'] = 2;
 			$user->redirect('empEncode.php');
+		}
+	} else if (isset($_POST['addNewsAdmin'])){
+		$user = new User();
+		$params = array(
+			'title' => $_POST['title'],
+			'content' => $_POST['content'],
+            'userId' => $_POST['userId']
+        );
+
+		if (count($_FILES['newsImgFile']['tmp_name']) > 0) {
+			for ($x = 0; $x < count($_FILES['newsImgFile']['tmp_name']); $x++) {
+				$file_name = $_FILES['newsImgFile']['name'][$x];
+				$file_size = $_FILES['newsImgFile']['size'][$x];
+				$file_tmp  = $_FILES['newsImgFile']['tmp_name'][$x];
+
+			    $t = explode(".", $file_name);
+			    $t1 = end($t);
+			    $file_ext = strtolower(end($t));
+
+			    $allowExt = array("jpg", "jpeg", "png", "gif", "bmp");
+			    if(in_array($file_ext,$allowExt)) {
+			    	$fileTmp = $file_tmp;
+			    	$file_path = "uploads/" . $file_name;
+			    	move_uploaded_file($fileTmp, $file_path);
+
+			    	$imageParamNews = array(
+			    		'imagePath' => $file_path,
+			    		'isNews' => 1
+			    	);
+
+			    	$user->insertImages($imageParamNews, 'News');
+			    }
+			}
+		}
+
+		$result = $user->insertNews($params);
+		if($result){
+			$user->redirect('adminEncode.php');
+			$_SESSION['MsgCode'] = 0;
+		} else {
+	    	$_SESSION['Message'] = "Something went wrong please try again.";
+	    	$_SESSION['MsgCode'] = 2;
+			$user->redirect('adminEncode.php');
 		}
 	}
 
@@ -467,6 +762,55 @@ if(!empty($_POST)){
 		}
 	}
 
+	if(isset($_POST['requestNewSeminarAdmin'])){
+		$user = new User();
+
+		$params = array(
+			'seminarName' => $_POST['seminarName'],
+			'seminarDate' => $_POST['seminarDate'],
+			'timeStart' => $_POST['seminarTimeStart'],
+			'timeEnd' => $_POST['seminarTimeEnd'],
+			'seminarLocation' => $_POST['seminarLocation'],
+			'userId' => $_POST['userId']
+		);
+
+		$result = $user->insertRequestSeminar($params, true);
+		if($result){
+			$user->redirect('adminEncode.php');
+			$_SESSION['MsgCode'] = 0;
+		} else {
+	    	$_SESSION['Message'] = "Something went wrong please try again.";
+	    	$_SESSION['MsgCode'] = 2;
+			$user->redirect('adminEncode.php');
+		}
+	}
+
+	if(isset($_POST['requestNewTripAdmin'])){
+		$user = new User();
+
+		$params = array(
+			'tripDate' => $_POST['tripDate'],
+			'locationPickUp' => $_POST['locationPickUp'],
+			'locationPickUpTime' => $_POST['locationPickUpTime'],
+			'locationDestination' => $_POST['locationDestination'],
+			'locationDestinationTime' => $_POST['locationDestinationTime'],
+			'driverName' => $_POST['driverName'],
+			'plateNo' => $_POST['plateNo'],
+			'contactNo' => $_POST['contactNo'],
+			'userId' => $_POST['userId']
+		);
+
+		$result = $user->insertRequestVehicleTrip($params, true);
+		if($result){
+			$user->redirect('adminEncode.php');
+			$_SESSION['MsgCode'] = 0;
+		} else {
+	    	$_SESSION['Message'] = "Something went wrong please try again.";
+	    	$_SESSION['MsgCode'] = 2;
+			$user->redirect('adminEncode.php');
+		}
+	}
+
 	if(isset($_POST['approvalSeminar'])){
 		$user = new User();
 
@@ -503,6 +847,56 @@ if(!empty($_POST)){
 		}		
 	}
 
+	if(isset($_POST['approvalSeminarAdmin'])){
+		$user = new User();
+
+		$params = array(
+			'seminarId' => $_POST['seminarId'],
+			'status' => $_POST['semstatus']
+		);
+
+		$result = $user->updateSeminarStatus($params);
+		if($result){
+			$user->redirect('adminApproval.php');
+		} else {
+			$_SESSION['Message'] = "Something went wrong please try again.";
+			$_SESSION['MsgCode'] = 2;
+			$user->redirect('adminApproval.php');
+		}		
+	}
+
+	if(isset($_POST['approvalTripAdmin'])){
+		$user = new User();
+
+		$params = array(
+			'tripId' => $_POST['tripId'],
+			'status' => $_POST['tripstatus']
+		);
+
+		$result = $user->updateVehicleTripStatus($params);
+		if($result){
+			$user->redirect('adminApproval.php');
+		} else {
+			$_SESSION['Message'] = "Something went wrong please try again.";
+			$_SESSION['MsgCode'] = 2;
+			$user->redirect('adminApproval.php');
+		}		
+	}
+
+	if(isset($_POST['unlockAccount'])){
+		$user = new User();
+
+		$result = $user->updateLoginCounterAdmin($_POST['lockedId'], 0);
+		if($result){
+			$_SESSION['Message'] = "Account Successfully Unlocked.";
+			$_SESSION['MsgCode'] = 0;
+			$user->redirect('adminApproval.php');
+		} else {
+			$_SESSION['Message'] = "Something went wrong please try again.";
+			$_SESSION['MsgCode'] = 2;
+			$user->redirect('adminApproval.php');
+		}
+	}
 
 	/*
 	 * AJAX FUNCTIONS 

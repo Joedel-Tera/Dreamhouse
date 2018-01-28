@@ -182,6 +182,28 @@ $getCurrentMenu = $currentMenu;
       </div>
     </nav>
 
+  <?php } else if ($userType == '1') { ?>
+    <nav class="navbar navbar-inverse navbar-static-top" style="margin-bottom:0px;">      <div class="navbar-container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li <?php if($getCurrentMenu == 1){ ?> class="active" <?php }; ?> ><a href="index.php">Home</a></li>
+            <li <?php if($getCurrentMenu == 11){ ?> class="active" <?php }; ?> ><a href="adminReports.php"> Reports </a></li>
+            <li <?php if($getCurrentMenu == 12){ ?> class="active" <?php }; ?> ><a href="adminApproval.php"> Approvals </a></li>
+            <li <?php if($getCurrentMenu == 13){ ?> class="active" <?php }; ?> ><a href="adminEncode.php"> Encoding </a></li>
+            <li <?php if($getCurrentMenu == 14){ ?> class="active" <?php }; ?> ><a href="adminView.php"> View </a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
   <?php } ?>
  <div class="clear"> </div>

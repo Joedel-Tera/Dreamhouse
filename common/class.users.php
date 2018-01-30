@@ -197,6 +197,22 @@
 			}			
 		}
 
+		public function getAllClosingSales(){
+			try {
+				$stmt = $this->conn->prepare("SELECT *,ud.dh_firstName as AgentName,cl.dh_firstName as CustomerName 
+					FROM dh_database.dh_closing as cl 
+					INNER JOIN dh_user_details as ud
+					ON ud.dh_user_details_id = cl.dh_prepared_user_id
+					ORDER BY dh_closing_id DESC;");
+				$stmt->execute();
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
 		public function getMyClosingSales($userId){
 			try {
 				$stmt = $this->conn->prepare("SELECT * FROM dh_closing WHERE dh_prepared_user_id = ? ORDER BY dh_closing_id DESC");
@@ -313,6 +329,23 @@
 			try {
 				$stmt = $this->conn->prepare("SELECT * FROM dh_users as uM INNER JOIN dh_user_details as uMD ON uM.dh_user_details_id = uMD.dh_user_details_id INNER JOIN dh_user_groups as uG ON uM.dh_user_group_id = uG.dh_user_group_id WHERE is_deleted = 0 AND login_counter = 4");
 				$stmt->execute();
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				return $result;
+			} catch (PDOException $e) {
+				echo $e->getMessage();
+				throw $e;
+			}
+		}
+
+		public function getAllUserByType($userTypeId){
+			try {
+				$stmt = $this->conn->prepare("SELECT * FROM dh_users as uM 
+					INNER JOIN dh_user_details as uMD 
+					ON uM.dh_user_details_id = uMD.dh_user_details_id
+					INNER JOIN dh_user_groups as uG 
+					ON uM.dh_user_group_id = uG.dh_user_group_id
+					WHERE uM.dh_user_group_id = ? ORDER BY dh_user_id DESC");
+				$stmt->execute(array($userTypeId));
 				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 				return $result;
 			} catch (PDOException $e) {
